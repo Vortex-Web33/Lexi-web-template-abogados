@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/cormorant-garamond';
+
+@theme {
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond Variable', 'Cormorant Garamond', Georgia, serif;
+
+  --color-ivory: #f6f1e6;
+  --color-ivory-deep: #efe8d8;
+  --color-watermark: #e2d7bc;
+  --color-line: #ded2ba;
+  --color-stone: #7a6746;
+  --color-taupe: #6d5c45;
+  --color-bronze: #8f6f42;
+  --color-mocha: #5f4a30;
+  --color-cocoa: #433424;
+  --color-ink: #2b2017;
+
+  --tracking-luxe: 0.34em;
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+  }
+  body {
+    @apply bg-ivory font-sans text-ink antialiased;
+    caret-color: var(--color-mocha);
+  }
+  ::selection {
+    background-color: var(--color-mocha);
+    color: var(--color-ivory);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-mocha);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ivory);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-stone);
+    border-radius: 8px;
+    border: 2px solid var(--color-ivory);
+  }
+  @supports (scrollbar-color: auto) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-stone) var(--color-ivory);
+    }
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility text-luxe {
+  letter-spacing: var(--tracking-luxe);
+}
+
+@utility text-luxe-sm {
+  letter-spacing: 0.18em;
+}
