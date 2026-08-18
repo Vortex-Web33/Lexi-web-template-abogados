@@ -1,0 +1,58 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales } from '../../i18n';
+import type { Locale } from '../../i18n';
+import { getTranslation } from '../../i18n';
+import Base from '../../layouts/Base.astro';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.currentLocale as Locale;
+const t = getTranslation(locale);
+---
+
+<Base locale={locale} title={`${t.caseStudy.title} — LexCore`} description={t.meta.description}>
+  <section class="px-6 pb-12 pt-16 text-center md:px-14 md:pt-24" data-reveal>
+    <h1 class="text-balance text-4xl font-bold uppercase tracking-tight text-ink md:text-6xl">{t.caseStudy.title}</h1>
+    <p class="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-taupe md:text-base">{t.caseStudy.intro}</p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 md:px-10" data-reveal-group>
+    {
+      t.caseStudy.cases.map((c) => (
+        <article class="border-t border-line py-10 last:border-b">
+          <div class="flex flex-wrap items-baseline justify-between gap-3">
+            <span class="text-[10px] uppercase tracking-luxe text-bronze">{c.tag}</span>
+            <span class="text-[10px] uppercase tracking-luxe text-taupe">{c.sector}</span>
+          </div>
+          <h2 class="mt-4 font-serif text-2xl font-semibold text-ink md:text-3xl">{c.client}</h2>
+          <dl class="mt-7 grid gap-6 md:grid-cols-3 md:gap-10">
+            <div>
+              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Challenge</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.challenge}</dd>
+            </div>
+            <div>
+              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Solution</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.solution}</dd>
+            </div>
+            <div>
+              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Result</dt>
+              <dd class="mt-2 text-sm font-medium leading-relaxed text-ink">{c.result}</dd>
+            </div>
+          </dl>
+        </article>
+      ))
+    }
+  </section>
+
+  <div class="px-6 pb-20 pt-12 text-center" data-reveal>
+    <a
+      href={getRelativeLocaleUrl(locale, 'contact')}
+      class="inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+    >
+      {t.caseStudy.cta}
+    </a>
+  </div>
+</Base>

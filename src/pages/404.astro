@@ -1,0 +1,27 @@
+---
+import { getTranslation, isLocale } from '../i18n';
+import Base from '../layouts/Base.astro';
+
+const locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : 'en';
+const t = getTranslation(locale);
+---
+
+<Base locale={locale} title={`404 — LexCore`} description={t.meta.description}>
+  <section class="px-6 py-28 text-center md:py-40">
+    <p class="font-serif text-[7rem] font-semibold italic leading-none text-watermark md:text-[10rem]">404</p>
+    <h1 class="mt-6 text-balance text-3xl font-bold uppercase tracking-tight text-ink md:text-5xl">
+      {locale === 'en' ? 'Page not found' : 'Página no encontrada'}
+    </h1>
+    <p class="mx-auto mt-5 max-w-md text-sm leading-relaxed text-taupe">
+      {locale === 'en'
+        ? 'The page you are looking for does not exist or has moved.'
+        : 'La página que buscas no existe o ha sido movida.'}
+    </p>
+    <a
+      href="/en"
+      class="mt-10 inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+    >
+      {locale === 'en' ? 'Back to home' : 'Volver al inicio'}
+    </a>
+  </section>
+</Base>
