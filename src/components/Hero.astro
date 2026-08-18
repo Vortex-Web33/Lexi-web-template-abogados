@@ -1,0 +1,78 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Translation } from '../i18n';
+
+interface Props {
+  t: Translation;
+}
+
+const { t } = Astro.props;
+const contact = getRelativeLocaleUrl(t.lang, 'contact');
+---
+
+<section class="overflow-x-clip px-6 pt-14 text-center md:px-14 md:pt-20" data-hero>
+  <h1
+    class="mx-auto max-w-[11.5em] text-balance text-[clamp(1.75rem,5.2vw,4.2rem)] font-bold uppercase leading-[1.06] tracking-[-0.015em] text-ink"
+    data-hero-title
+  >
+    {t.hero.titleLine1}
+    <br />
+    {t.hero.titleLine2}
+  </h1>
+
+  <p class="mx-auto mt-7 max-w-md text-sm leading-relaxed text-taupe md:text-[15px]" data-hero-sub>
+    {t.hero.subtitle}
+  </p>
+
+  <a
+    href={contact}
+    class="mt-9 inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+    data-hero-cta
+  >
+    {t.hero.cta}
+  </a>
+
+  <div class="relative mx-auto mt-14 h-[480px] w-full max-w-[860px] md:mt-20 md:h-[620px]" data-hero-visual>
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-serif text-[max(7rem,min(22vw,18rem))] font-bold uppercase leading-none tracking-[-0.04em] text-watermark"
+      data-hero-watermark
+    >
+      {t.hero.watermark}
+    </span>
+
+    <img
+      src="/images/lady-justice.webp"
+      alt={t.hero.watermark}
+      class="absolute bottom-0 left-1/2 h-[104%] -translate-x-1/2 max-w-none object-contain [filter:drop-shadow(0_28px_44px_rgba(43,32,23,0.28))]"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+
+    <div class="absolute left-0 top-1/2 hidden -translate-y-1/2 max-w-[150px] border-l border-bronze/50 pl-5 text-left lg:block" data-hero-authority>
+      {
+        t.hero.authority.map((line) => (
+          <p class="mb-3 text-[10px] font-medium uppercase leading-relaxed text-luxe-sm text-taupe last:mb-0">{line}</p>
+        ))
+      }
+    </div>
+
+    <div class="absolute right-0 top-6 hidden flex-col items-end gap-8 lg:flex" data-hero-badges>
+      {
+        t.hero.badges.map((b) => (
+          <figure class="flex w-[190px] flex-col items-end gap-2.5 text-right">
+            <div
+              class="flex h-16 w-16 items-center justify-center rounded-full border border-line bg-ivory-deep shadow-[0_8px_20px_-8px_rgba(43,32,23,0.25)]"
+              aria-hidden="true"
+            >
+              <span class="font-serif text-lg font-semibold text-ink">{b.initials}</span>
+            </div>
+            <blockquote class="text-[11px] leading-snug text-taupe">“{b.quote}”</blockquote>
+            <figcaption class="text-[9px] uppercase tracking-luxe text-bronze">{b.role}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

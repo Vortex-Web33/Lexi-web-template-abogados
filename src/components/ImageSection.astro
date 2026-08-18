@@ -1,0 +1,26 @@
+---
+import type { Translation } from '../i18n';
+
+interface Props {
+  t: Translation;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="relative overflow-hidden" data-reveal>
+  <div class="overflow-hidden" data-parallax>
+    <img
+      src="/images/office.jpg"
+      alt={t.imageSection.caption}
+      class="h-[240px] w-full object-cover object-[center_35%] brightness-[0.92] contrast-[1.05] saturate-[0.85] sepia-[0.18] md:h-[340px] lg:h-[400px]"
+      loading="lazy"
+      decoding="async"
+      data-parallax-target
+    />
+  </div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" aria-hidden="true" />
+  <p class="absolute bottom-5 left-6 right-6 text-balance text-[10px] uppercase leading-relaxed tracking-luxe text-ivory/90 md:left-10 md:right-auto md:max-w-sm md:text-[11px]">
+    {t.imageSection.caption}
+  </p>
+</section>
