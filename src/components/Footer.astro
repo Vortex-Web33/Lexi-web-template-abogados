@@ -1,0 +1,37 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Locale, Translation } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  t: Translation;
+}
+
+const { locale, t } = Astro.props;
+---
+
+<footer class="border-t border-line bg-ivory-deep px-6 py-12 md:px-14 md:py-16">
+  <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div>
+      <a href={getRelativeLocaleUrl(locale, '')} class="flex items-baseline gap-0.5">
+        <span class="font-serif text-2xl font-semibold text-ink">LexCore</span>
+        <span class="text-lg font-bold text-bronze">.</span>
+      </a>
+      <p class="mt-4 max-w-xs text-xs leading-relaxed text-taupe">{t.footer.tagline}</p>
+    </div>
+    {
+      t.footer.columns.map((col) => (
+        <div>
+          <h3 class="text-[10px] uppercase tracking-luxe text-bronze">{col.heading}</h3>
+          <ul class="mt-4 space-y-2.5">
+            {col.links.map((link) => <li class="text-xs text-taupe transition-colors hover:text-ink">{link}</li>)}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <div class="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[10px] uppercase tracking-luxe text-stone sm:flex-row sm:items-center sm:justify-between">
+    <p>© {new Date().getFullYear()} LexCore. {t.footer.rights}</p>
+    <p>{t.footer.madeWith}</p>
+  </div>
+</footer>

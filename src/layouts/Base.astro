@@ -1,0 +1,65 @@
+---
+import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getTranslation, locales, type Locale } from '../i18n';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+}
+
+const { locale, title, description } = Astro.props;
+const t = getTranslation(locale);
+
+const pathname = Astro.url.pathname;
+const rest = pathname.replace(new RegExp(`^/${locale}`), '').replace(/^\//, '');
+
+const hrefLang = (l: Locale) => getAbsoluteLocaleUrl(l, rest);
+const canonical = hrefLang(locale);
+const xDefault = getAbsoluteLocaleUrl('en', rest);
+const image = new URL(t.meta.ogImage, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#85704f" />
+
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={l === 'en' ? 'en-US' : 'es-ES'} href={hrefLang(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="LexCore" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_ES'} />
+    <meta property="og:locale:alternate" content={locale === 'en' ? 'es_ES' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+  </head>
+  <body class="min-h-screen bg-ivory">
+    <Header locale={locale} t={t} rest={rest} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} t={t} />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
