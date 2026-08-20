@@ -1,85 +1,72 @@
 ---
 import type { Translation } from '../i18n';
+import { Icon } from 'astro-icon/components';
 
 interface Props {
   t: Translation;
 }
 
 const { t } = Astro.props;
-
-const ringText = t.imageSection.caption.split(' ').join(' · ');
 ---
 
 <section class="relative" data-image-section>
+  <div class="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
+    <div class="relative grid h-28 w-28 place-items-center rounded-full bg-ink md:h-36 md:w-36" data-scroll-badge>
+      <svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full" data-scroll-ring>
+        <defs>
+          <path
+            id="scroll-path"
+            d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+            fill="none"
+          ></path>
+        </defs>
+        <text class="fill-ivory text-[7.5px] md:text-[9px]" style={{ letterSpacing: '0.16em' }}>
+          <textPath href="#scroll-path" startOffset="0%">
+            Scroll Down · Scroll Down · Scroll Down ·
+          </textPath>
+        </text>
+      </svg>
+      <span
+        class="absolute left-1/2 top-1/2 h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ivory/25"
+      ></span>
+      <div
+        class="absolute left-1/2 top-1/2 grid h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-ivory"
+        data-scroll-arrow
+      >
+        <Icon name="lucide:arrow-down" class="h-4 w-4 text-ink md:h-5 md:w-5" />
+      </div>
+    </div>
+  </div>
+
   <div
-    class="relative h-[50svh] w-full overflow-hidden sm:h-[60svh] md:h-[72svh]"
+    class="relative w-full overflow-hidden"
     data-parallax
+    style="mask-image: radial-gradient(circle 64px at 50% 0%, transparent 62px, black 64px); -webkit-mask-image: radial-gradient(circle 64px at 50% 0%, transparent 62px, black 64px);"
   >
     <img
       src="/images/office.jpg"
       alt={t.imageSection.caption}
       width="2000"
       height="1335"
-      class="h-full w-full object-cover object-[center_35%] brightness-[0.92] contrast-[1.05] saturate-[0.85] sepia-[0.18] will-change-transform"
+      class="h-[50svh] w-full object-cover object-[center_35%] brightness-[0.92] contrast-[1.05] saturate-[0.85] sepia-[0.18] will-change-transform sm:h-[60svh] md:h-[72svh]"
       loading="lazy"
       decoding="async"
       data-parallax-target
     />
-
-    <div class="absolute bottom-5 left-4 md:bottom-9 md:left-10" data-caption>
-      <div class="flex max-w-[34ch] items-start gap-3 md:max-w-[44ch]">
-        <span aria-hidden="true" class="mt-1.5 h-px w-9 shrink-0 bg-ivory/70 md:w-12"></span>
-        <p class="text-[13px] font-light leading-relaxed tracking-wide text-ivory/90 md:text-[15px]">
-          {t.imageSection.caption}
-        </p>
-      </div>
-    </div>
   </div>
 
-  <div class="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
-    <div class="relative">
-      <div
-        class="absolute left-1/2 top-1/2 z-30 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ivory md:h-56 md:w-56"
-        style="clip-path: inset(0 0 50% 0)"
-        data-medallion-halo
-      ></div>
-
-      <div
-        class="absolute left-1/2 top-1/2 h-35 w-35 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ivory md:h-54 md:w-54"
-        data-medallion-frame
-      ></div>
-
-      <div
-        class="relative grid h-33 w-33 place-items-center rounded-full border border-ivory/25 bg-ink md:h-52 md:w-52"
-        data-medallion-disk
-      >
-        <svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full" data-medallion-ring>
-          <defs>
-            <path
-              id="medallion-path"
-              d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-              fill="none"
-            ></path>
-          </defs>
-          <text
-            class="fill-ivory text-[7.5px] md:text-[9px]"
-            style={{ letterSpacing: '0.22em' }}
-          >
-            <textPath href="#medallion-path" startOffset="0%">
-              {ringText}
-            </textPath>
-          </text>
-        </svg>
-
-        <span class="absolute h-2/5 w-2/5 rounded-full border border-ivory/30" data-medallion-inner></span>
-        <span class="h-2 w-2 rotate-45 bg-bronze md:h-3 md:w-3"></span>
-      </div>
+  <div class="absolute bottom-5 left-4 md:bottom-9 md:left-10" data-caption>
+    <div class="flex max-w-[34ch] items-start gap-3 md:max-w-[44ch]">
+      <span aria-hidden="true" class="mt-1.5 h-px w-9 shrink-0 bg-ivory/70 md:w-12"></span>
+      <p class="text-[13px] font-light leading-relaxed tracking-wide text-ivory/90 md:text-[15px]">
+        {t.imageSection.caption}
+      </p>
     </div>
   </div>
 </section>
 
 <style>
-  .js [data-medallion-disk] {
+  .js [data-scroll-badge] {
     will-change: transform;
   }
 </style>
@@ -93,10 +80,34 @@ const ringText = t.imageSection.caption.split(' ').join(' · ');
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const disk = document.querySelector<HTMLElement>('[data-medallion-disk]');
-    const frame = document.querySelector<HTMLElement>('[data-medallion-frame]');
-    const ring = document.querySelector<HTMLElement>('[data-medallion-ring]');
-    const inner = document.querySelector<HTMLElement>('[data-medallion-inner]');
+    const badge = document.querySelector<HTMLElement>('[data-scroll-badge]');
+    const ring = document.querySelector<HTMLElement>('[data-scroll-ring]');
+    const arrow = document.querySelector<HTMLElement>('[data-scroll-arrow]');
+
+    if (badge) {
+      gsap.fromTo(
+        badge,
+        { scale: 0.85, autoAlpha: 0 },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '[data-image-section]',
+            start: 'top 82%',
+            toggleActions: 'play none none reverse',
+          },
+        },
+      );
+
+      badge.addEventListener('mouseenter', () => {
+        gsap.to(badge, { scale: 1.08, duration: 0.4, ease: 'power3.out', overwrite: 'auto' });
+      });
+      badge.addEventListener('mouseleave', () => {
+        gsap.to(badge, { scale: 1, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
+      });
+    }
 
     if (ring) {
       gsap.to(ring, {
@@ -108,32 +119,13 @@ const ringText = t.imageSection.caption.split(' ').join(' · ');
       });
     }
 
-    if (disk) {
-      const body = frame ? [disk, frame] : disk;
-
-      gsap.fromTo(
-        body,
-        { y: -48 },
-        {
-          y: 52,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '[data-image-section]',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        },
-      );
-
-      disk.addEventListener('mouseenter', () => {
-        gsap.to(body, { scale: 1.06, duration: 0.45, ease: 'power3.out', overwrite: 'auto' });
-        if (inner) gsap.to(inner, { rotation: 90, duration: 0.6, ease: 'power2.out' });
-      });
-
-      disk.addEventListener('mouseleave', () => {
-        gsap.to(body, { scale: 1, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
-        if (inner) gsap.to(inner, { rotation: 0, duration: 0.6, ease: 'power2.out' });
+    if (arrow) {
+      gsap.to(arrow, {
+        y: 4,
+        duration: 1.5,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
       });
     }
 

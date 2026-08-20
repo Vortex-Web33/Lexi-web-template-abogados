@@ -1,0 +1,75 @@
+---
+interface Props {
+  value: number;
+  label: string;
+  suffix?: string;
+  unit?: string;
+  locale: string;
+}
+
+const { value, label, suffix = '', unit = '', locale } = Astro.props;
+const uid = `cu${Math.random().toString(36).slice(2, 8)}`;
+const format = (n: number) => {
+  const sep = locale.toLowerCase().startsWith('es') ? '.' : ',';
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+};
+const final = format(value);
+---
+
+<div
+  class="flex items-baseline justify-between gap-6 border-t border-line py-6 md:py-7"
+  data-countup
+>
+  <p
+    class="font-serif text-4xl font-semibold tabular-nums leading-none tracking-tight text-ink md:text-5xl"
+  >
+    <span
+      data-countup-num
+      data-countup-uid={uid}
+      data-countup-target={value}
+      data-countup-locale={locale}
+      aria-label={`${final}${unit}${suffix}`}>{final}</span
+    ><span class="text-bronze">{unit}{suffix}</span>
+  </p>
+  <p class="text-right text-[10px] font-medium uppercase tracking-luxe text-taupe md:text-[11px]">
+    {label}
+  </p>
+</div>
+
+<script define:vars={{ uid }}>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const numEl = document.querySelector<HTMLElement>(`[data-countup-uid="${uid}"]`);
+    if (!numEl) return;
+
+    const target = Number(numEl.dataset.countupTarget ?? 0);
+    const locale = numEl.dataset.countupLocale ?? 'en-US';
+const format = (n) => {
+      const sep = locale.toLowerCase().startsWith('es') ? '.' : ',';
+      return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    };
+    const counter = { v: 0 };
+    numEl.textContent = '0';
+
+    gsap.to(counter, {
+      v: target,
+      duration: 1.6,
+      snap: 1,
+      ease: 'power2.out',
+      onUpdate: () => {
+        numEl.textContent = format(Math.round(counter.v));
+      },
+      scrollTrigger: {
+        trigger: numEl.closest('[data-countup]'),
+        start: 'top 85%',
+        once: true,
+      },
+    });
+  });
+</script>
