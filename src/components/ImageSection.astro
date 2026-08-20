@@ -11,14 +11,16 @@ const { t } = Astro.props;
 
 <section class="relative" data-image-section>
   <div class="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
-    <div class="relative grid h-28 w-28 place-items-center rounded-full bg-ink md:h-36 md:w-36" data-scroll-badge>
+    <div
+      class="relative grid h-28 w-28 place-items-center rounded-full bg-ink md:h-36 md:w-36"
+      data-scroll-badge
+    >
       <svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full" data-scroll-ring>
         <defs>
           <path
             id="scroll-path"
             d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
-            fill="none"
-          ></path>
+            fill="none"></path>
         </defs>
         <text class="fill-ivory text-[7.5px] md:text-[9px]" style={{ letterSpacing: '0.16em' }}>
           <textPath href="#scroll-path" startOffset="0%">
@@ -33,7 +35,7 @@ const { t } = Astro.props;
         class="absolute left-1/2 top-1/2 grid h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-ivory"
         data-scroll-arrow
       >
-        <Icon name="lucide:arrow-down" class="h-4 w-4 text-ink md:h-5 md:w-5" />
+        <Icon name="lucide:arrow-down" class="h-10 w-10 text-ink md:h-10 md:w-10" />
       </div>
     </div>
   </div>
@@ -93,6 +95,7 @@ const { t } = Astro.props;
           autoAlpha: 1,
           duration: 1,
           ease: 'power3.out',
+          immediateRender: true,
           scrollTrigger: {
             trigger: '[data-image-section]',
             start: 'top 82%',
@@ -137,6 +140,7 @@ const { t } = Astro.props;
         autoAlpha: 1,
         duration: 0.9,
         ease: 'power3.out',
+        immediateRender: true,
         scrollTrigger: {
           trigger: '[data-image-section]',
           start: 'top 72%',

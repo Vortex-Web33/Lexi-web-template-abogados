@@ -97,8 +97,77 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
         duration: 0.9,
         stagger: 0.12,
         scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        onComplete: () => {
+          gsap.set(el.children, { clearProps: 'transform' });
+        },
       },
     );
+  });
+
+  const hoverImages = gsap.matchMedia();
+  hoverImages.add('(hover: hover)', () => {
+    const rows = gsap.utils.toArray<HTMLElement>('[data-docket]');
+    if (!rows.length) return;
+    const handlers: Array<{ el: HTMLElement; enter: EventListener; leave: EventListener }> = [];
+    const aligns: Array<(e: MouseEvent) => void> = [];
+
+    rows.forEach((row) => {
+      const image = row.parentElement?.querySelector<HTMLElement>('[data-docket-image]');
+      if (!image) return;
+      gsap.set(image, { xPercent: -50, yPercent: -50, autoAlpha: 0 });
+
+      const setX = gsap.quickTo(image, 'x', { duration: 0.4, ease: 'power3' });
+      const setY = gsap.quickTo(image, 'y', { duration: 0.4, ease: 'power3' });
+
+      let firstEnter = true;
+      const align = (e: MouseEvent) => {
+        if (firstEnter) {
+          setX(e.clientX, e.clientX);
+          setY(e.clientY, e.clientY);
+          firstEnter = false;
+        } else {
+          setX(e.clientX);
+          setY(e.clientY);
+        }
+      };
+      const startFollow = () => {
+        aligns.push(align);
+        document.addEventListener('mousemove', align);
+      };
+      const stopFollow = () => {
+        const i = aligns.indexOf(align);
+        if (i >= 0) aligns.splice(i, 1);
+        document.removeEventListener('mousemove', align);
+      };
+
+      const fade = gsap.to(image, {
+        autoAlpha: 1,
+        ease: 'none',
+        paused: true,
+        duration: 0.15,
+        onReverseComplete: stopFollow,
+      });
+
+      const enter = (e: Event) => {
+        firstEnter = true;
+        fade.play();
+        startFollow();
+        align(e as MouseEvent);
+      };
+      const leave = () => fade.reverse();
+
+      row.addEventListener('mouseenter', enter);
+      row.addEventListener('mouseleave', leave);
+      handlers.push({ el: row, enter, leave });
+    });
+
+    return () => {
+      handlers.forEach(({ el, enter, leave }) => {
+        el.removeEventListener('mouseenter', enter);
+        el.removeEventListener('mouseleave', leave);
+      });
+      aligns.forEach((align) => document.removeEventListener('mousemove', align));
+    };
   });
 
   document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((wrap) => {
