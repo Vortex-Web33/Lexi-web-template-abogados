@@ -32,7 +32,6 @@ const en: Translation = {
     certificates: [
       { name: 'Chambers & Partners', detail: 'Top Tier Recognised' },
       { name: 'The Legal 500', detail: 'Leading Full-Service Firm' },
-      { name: 'Super Lawyers', detail: 'Recognised' },
     ],
   },
   statement: {

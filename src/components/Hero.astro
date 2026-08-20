@@ -52,13 +52,13 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     </div>
 
     <div
-      class="absolute left-0 top-1/2 hidden -translate-y-1/2 max-w-52.5 pl-5 text-left lg:block"
+      class="absolute left-20 bottom-60 hidden -translate-y-1/2 max-w-52.5 text-left lg:block"
       data-hero-authority
     >
-      <p class="text-[12px] font-bold uppercase tracking-luxe text-stone">
+      <p class="text-[20px] font-bold uppercase tracking-luxe text-stone">
         {t.hero.authority.title}
       </p>
-      <p class="mt-2.5 text-[12px] leading-relaxed text-taupe">
+      <p class="mt-2.5 text-[15px] leading-relaxed text-taupe">
         {t.hero.authority.text}
       </p>
     </div>
@@ -66,20 +66,20 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     <img
       src="/images/lady-justice.webp"
       alt={t.hero.imageAlt}
-      class="absolute bottom-[4svh] left-1/2 z-10 h-[95%] max-w-[72%] -translate-x-1/2 object-contain filter[drop-shadow(0_28px_36px_rgba(43,32,23,0.22))] mask-image[linear-gradient(to_bottom,black_90%,transparent_100%)]"
+      class="absolute bottom-[4svh] left-1/2 z-10 h-[95%] max-w-[72%] -translate-x-1/2 object-contain [filter:drop-shadow(0_28px_36px_rgba(43,32,23,0.22))] mask-[linear-gradient(to_bottom,black_42%,transparent_100%)]"
       loading="eager"
       fetchpriority="high"
       decoding="async"
     />
 
     <div
-      class="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block lg:max-w-[80%]"
+      class="absolute right-20 top-1/2 hidden -translate-y-1/2 lg:block lg:max-w-[80%] pb-30"
       data-hero-certificates
     >
       <div class="flex items-stretch justify-end gap-4">
         {
           t.hero.certificates.map((c) => (
-            <figure class="flex w-47.5 flex-col items-center gap-2.5  px-4 py-5 text-center shadow-[0_8px_20px_-8px_rgba(43,32,23,0.25)]">
+            <figure class="flex w-47.5 flex-col items-center gap-2.5  px-4 py-5 text-center ">
               <Icon name="lucide:badge-check" class="h-8 w-8 text-bronze" />
               <figcaption>
                 <p class="text-[12px] font-semibold leading-snug text-ink">{c.name}</p>
