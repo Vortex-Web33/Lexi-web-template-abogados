@@ -15,14 +15,14 @@ const es: Translation = {
     caseStudy: "Casos",
     services: "Servicios",
     contact: "Contacto",
-    cta: "Contáctanos ↗",
+    cta: "Contáctanos",
   },
   hero: {
     titleLine1: "Tu socio legal en",
     titleLine2: "cualquier situación",
     subtitle:
       "LexCore resuelve asuntos legales complejos con estrategia, discreción y un compromiso inquebrantable con tus intereses.",
-    cta: "Reserva consulta gratuita ↗",
+    cta: "Reserva consulta gratuita",
     authority: [
       "+18 años de excelencia legal",
       "Habilitados para ejercer en 3 jurisdicciones",
@@ -173,7 +173,7 @@ const es: Translation = {
         text: "Defensa y remediación en investigaciones regulatorias, incluyendo asuntos transfronterizos.",
       },
     ],
-    cta: "Comenta tu caso con nosotros ↗",
+    cta: "Comenta tu caso con nosotros",
   },
   caseStudy: {
     title: "Casos de éxito",
@@ -214,7 +214,7 @@ const es: Translation = {
           "Carga fiscal efectiva reducida un 31% con plena aprobación regulatoria.",
       },
     ],
-    cta: "Casos completos disponibles bajo petición ↗",
+    cta: "Casos completos disponibles bajo petición",
   },
   contact: {
     title: "Reserva una consulta gratuita",
@@ -224,7 +224,7 @@ const es: Translation = {
       name: "Nombre completo",
       email: "Correo electrónico",
       message: "Describe brevemente tu asunto",
-      submit: "Enviar solicitud ↗",
+      submit: "Enviar solicitud",
       note: "Confidencial por defecto. Nunca compartiremos tu información.",
     },
     offices: [

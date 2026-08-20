@@ -17,8 +17,21 @@ const t = getTranslation(locale);
 ---
 
 <Base locale={locale} title={t.meta.title} description={t.meta.description}>
-  <Hero t={t} />
-  <Statement t={t} />
+  <div class="relative overflow-hidden">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 z-0 h-[100svh] select-none overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent_100%)]"
+    >
+      <span
+        class="absolute inset-x-0 bottom-[4svh] block whitespace-nowrap text-center font-serif text-[max(6rem,min(22vw,16rem))] font-bold uppercase leading-none tracking-[-0.04em] text-watermark"
+        data-hero-watermark
+      >
+        LAWYER
+      </span>
+    </div>
+    <Hero t={t} />
+    <Statement t={t} />
+  </div>
   <Metrics t={t} />
   <ImageSection t={t} />
 </Base>

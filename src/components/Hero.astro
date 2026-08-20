@@ -1,16 +1,19 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
-import type { Translation } from '../i18n';
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Translation } from "../i18n";
 
 interface Props {
   t: Translation;
 }
 
 const { t } = Astro.props;
-const contact = getRelativeLocaleUrl(t.lang, 'contact');
+const contact = getRelativeLocaleUrl(t.lang, "contact");
 ---
 
-<section class="relative flex h-svh flex-col overflow-hidden px-6 pt-10 md:px-14 md:pt-12 lg:px-20" data-hero>
+<section
+  class="relative flex h-svh flex-col overflow-hidden px-6 pt-10 md:px-14 md:pt-12 lg:px-20"
+  data-hero
+>
   <h1
     class="mx-auto max-w-[13em] text-balance text-center text-[clamp(1.6rem,5.5vw,4.75rem)] font-bold uppercase leading-[1.03] tracking-[-0.02em] text-ink"
     data-hero-title
@@ -24,7 +27,10 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     class="mx-auto mt-5 flex w-full max-w-2xl flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-8"
     data-hero-meta
   >
-    <p class="max-w-sm text-center text-sm leading-relaxed text-taupe sm:text-left md:text-[15px]" data-hero-sub>
+    <p
+      class="max-w-sm text-center text-sm leading-relaxed text-taupe sm:text-left md:text-[15px]"
+      data-hero-sub
+    >
       {t.hero.subtitle}
     </p>
     <a
@@ -33,24 +39,27 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
       data-hero-cta
     >
       {t.hero.cta}
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6"/></svg>
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"><path d="M2 10L10 2M4 2h6v6"></path></svg
+      >
     </a>
   </div>
 
   <div class="relative mt-5 min-h-0 flex-1" data-hero-visual>
-    <span
-      aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-center font-serif text-[max(6rem,min(22vw,16rem))] font-bold uppercase leading-none tracking-[-0.04em] text-watermark"
-      data-hero-watermark
-    >
-      LAWYER
-    </span>
-
     <div
-      class="absolute left-1/2 top-1/2 h-[84%] w-[min(74vw,560px)] -translate-x-1/2 -translate-y-1/2 border border-ink/60 bg-ivory-deep/40"
+      class="absolute left-1/2 top-1/2 h-[84%] w-[min(74vw,560px)] -translate-x-1/2 -translate-y-1/2 border border-ink/60"
       aria-hidden="true"
       data-hero-frame
-    ></div>
+    >
+    </div>
 
     <div
       class="absolute left-0 top-1/2 hidden -translate-y-1/2 max-w-[150px] border-l border-bronze/50 pl-5 text-left lg:block"
@@ -58,7 +67,9 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     >
       {
         t.hero.authority.map((line) => (
-          <p class="mb-3 text-[10px] font-medium uppercase leading-relaxed text-luxe-sm text-taupe last:mb-0">{line}</p>
+          <p class="mb-3 text-[10px] font-medium uppercase leading-relaxed text-luxe-sm text-taupe last:mb-0">
+            {line}
+          </p>
         ))
       }
     </div>
@@ -66,7 +77,7 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     <img
       src="/images/lady-justice.webp"
       alt="Lady Justice"
-      class="absolute left-1/2 top-1/2 z-10 h-[78%] -translate-x-1/2 -translate-y-1/2 max-w-[70%] object-contain [filter:drop-shadow(0_20px_36px_rgba(43,32,23,0.22))]"
+      class="absolute bottom-[4svh] left-1/2 z-10 h-[95%] max-w-[72%] -translate-x-1/2 object-contain [filter:drop-shadow(0_20px_36px_rgba(43,32,23,0.22))] [mask-image:linear-gradient(to_bottom,black_90%,transparent_100%)]"
       loading="eager"
       fetchpriority="high"
       decoding="async"
@@ -80,13 +91,19 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
         t.hero.badges.map((b) => (
           <figure class="flex w-[190px] flex-col items-end gap-2.5 text-right">
             <div
-              class="flex h-16 w-16 items-center justify-center rounded-full border border-line bg-ivory-deep shadow-[0_8px_20px_-8px_rgba(43,32,23,0.25)]"
+              class="flex h-16 w-16 items-center justify-center rounded-full border border-line shadow-[0_8px_20px_-8px_rgba(43,32,23,0.25)]"
               aria-hidden="true"
             >
-              <span class="font-serif text-lg font-semibold text-ink">{b.initials}</span>
+              <span class="font-serif text-lg font-semibold text-ink">
+                {b.initials}
+              </span>
             </div>
-            <blockquote class="text-[11px] leading-snug text-taupe">“{b.quote}”</blockquote>
-            <figcaption class="text-[9px] uppercase tracking-luxe text-bronze">{b.role}</figcaption>
+            <blockquote class="text-[11px] leading-snug text-taupe">
+              “{b.quote}”
+            </blockquote>
+            <figcaption class="text-[9px] uppercase tracking-luxe text-bronze">
+              {b.role}
+            </figcaption>
           </figure>
         ))
       }
