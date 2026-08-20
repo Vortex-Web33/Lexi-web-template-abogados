@@ -23,22 +23,14 @@ const en: Translation = {
     subtitle:
       "LexCore resolves complex legal matters with strategy, discretion and an unwavering commitment to your interests.",
     cta: "Book a Free Consultation",
-    authority: [
-      "18+ Years of Legal Excellence",
-      "Admitted to Practice in 3 Jurisdictions",
-      "Recognised by Chambers & Partners",
-    ],
-    badges: [
-      {
-        initials: "MK",
-        quote: "They won a case two other firms had declined.",
-        role: "Managing Director",
-      },
-      {
-        initials: "AR",
-        quote: "Precise, fast and utterly trustworthy.",
-        role: "CEO, FinTech",
-      },
+    authority: {
+      title: "Our Legal Team",
+      text: "30+ years of combined experience representing over 12,000 criminal matters across 3 jurisdictions.",
+    },
+    certificates: [
+      { name: "Chambers & Partners", detail: "Top Tier Recognised" },
+      { name: "The Legal 500", detail: "Leading Criminal Firm" },
+      { name: "Super Lawyers", detail: "10.0 Rated" },
     ],
   },
   statement: {

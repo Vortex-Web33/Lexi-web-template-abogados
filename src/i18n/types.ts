@@ -24,8 +24,8 @@ export interface Translation {
     titleLine2: string;
     subtitle: string;
     cta: string;
-    authority: string[];
-    badges: { initials: string; quote: string; role: string }[];
+    authority: { title: string; text: string };
+    certificates: { name: string; detail: string }[];
   };
   statement: {
     segments: Segment[];

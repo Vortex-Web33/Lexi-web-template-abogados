@@ -32,7 +32,7 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
       .from('[data-hero-frame]', { autoAlpha: 0, scale: 0.96, duration: 1.1 }, '-=1.1')
       .from('[data-hero-watermark]', { autoAlpha: 0, scale: 0.92, duration: 1.6 }, '-=1.3')
       .from(
-        '[data-hero-authority], [data-hero-badges]',
+        '[data-hero-authority], [data-hero-certificates]',
         { autoAlpha: 0, y: 24, duration: 0.8, stagger: 0.15 },
         '-=1',
       );

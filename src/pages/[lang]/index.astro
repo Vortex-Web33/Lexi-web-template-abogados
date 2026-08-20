@@ -1,12 +1,12 @@
 ---
-import { locales } from '../../i18n';
-import type { Locale } from '../../i18n';
-import { getTranslation } from '../../i18n';
-import Base from '../../layouts/Base.astro';
-import Hero from '../../components/Hero.astro';
-import Statement from '../../components/Statement.astro';
-import Metrics from '../../components/Metrics.astro';
-import ImageSection from '../../components/ImageSection.astro';
+import { locales } from "../../i18n";
+import type { Locale } from "../../i18n";
+import { getTranslation } from "../../i18n";
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import Statement from "../../components/Statement.astro";
+import Metrics from "../../components/Metrics.astro";
+import ImageSection from "../../components/ImageSection.astro";
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -20,10 +20,10 @@ const t = getTranslation(locale);
   <div class="relative overflow-hidden">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 z-0 h-[100svh] select-none overflow-hidden [mask-image:linear-gradient(to_bottom,black_62%,transparent_100%)]"
+      class="pointer-events-none absolute inset-x-0 top-0 z-0 h-svh select-none overflow-hidden mask-[linear-gradient(to_bottom,black_42%,transparent_100%)]"
     >
       <span
-        class="absolute inset-x-0 bottom-[4svh] block whitespace-nowrap text-center font-serif text-[max(6rem,24vw)] font-bold uppercase leading-none tracking-[-0.04em] text-watermark"
+        class="absolute inset-x-0 -bottom-37.5 block whitespace-nowrap text-center font-serif text-[max(10rem,24vw)] font-bold uppercase leading-none tracking-[-0.01em] text-watermark"
         data-hero-watermark
       >
         LAWYER

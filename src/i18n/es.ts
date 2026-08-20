@@ -23,22 +23,14 @@ const es: Translation = {
     subtitle:
       "LexCore resuelve asuntos legales complejos con estrategia, discreción y un compromiso inquebrantable con tus intereses.",
     cta: "Reserva consulta gratuita",
-    authority: [
-      "+18 años de excelencia legal",
-      "Habilitados para ejercer en 3 jurisdicciones",
-      "Reconocidos por Chambers & Partners",
-    ],
-    badges: [
-      {
-        initials: "MK",
-        quote: "Ganaron un caso que otros dos bufetes habían rechazado.",
-        role: "Director General",
-      },
-      {
-        initials: "AR",
-        quote: "Precisos, rápidos y absolutamente fiables.",
-        role: "CEO, FinTech",
-      },
+    authority: {
+      title: "Nuestro Equipo Legal",
+      text: "Más de 30 años de experiencia combinada representando más de 12.000 asuntos penales en 3 jurisdicciones.",
+    },
+    certificates: [
+      { name: "Chambers & Partners", detail: "Reconocidos Top Tier" },
+      { name: "The Legal 500", detail: "Bufete Penal Líder" },
+      { name: "Super Lawyers", detail: "Valoración 10.0" },
     ],
   },
   statement: {
