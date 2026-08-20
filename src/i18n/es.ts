@@ -132,6 +132,13 @@ const es: Translation = {
       { value: '95%', label: 'Aprobación de clientes' },
       { value: '6.000+', label: 'Clientes en el mundo' },
     ],
+    officeLine: 'Despacho de abogados · Madrid & Miami',
+    salutation: 'Estimado cliente,',
+    marginNotes: ['Orígenes', 'El método', 'Nuestros clientes'],
+    stampLabel: 'ESTAMPADO',
+    psTitle: 'P.S. — Nuestro compromiso',
+    annexTitle: 'Anexo · El despacho en cifras',
+    closing: 'Atentamente,',
   },
   services: {
     title: 'Áreas de práctica',
@@ -175,36 +182,72 @@ const es: Translation = {
     title: 'Casos de éxito',
     intro:
       'Una selección de asuntos que nuestros clientes nos han permitido compartir. Nombres y detalles sensibles omitidos por diseño.',
+    redactionNote: 'Asuntos anonimizados por diseño · citas reconstruidas para ilustrar',
+    labels: {
+      threat: 'La Amenaza',
+      move: 'La Maniobra',
+      outcome: 'El Desenlace',
+      keyFigures: 'Cifras Clave',
+      resolved: 'Resuelto',
+      shelfHint: 'Desplázate para recorrer el archivo',
+    },
     cases: [
       {
+        ref: 'EXP-2024-01',
         client: 'Grupo industrial transfronterizo',
         sector: 'M&A · España / EE.UU.',
         tag: 'Defensa de adquisición',
+        verdict: 'La OPA fue retirada. La ronda cerró un 22% más alta.',
         challenge:
           'Una OPA hostil amenazó la independencia del grupo seis semanas antes de una ronda de financiación crítica.',
         solution:
           'Estructuramos una alianza defensiva, negociamos un standstill y reestructuramos la financiación en pistas paralelas.',
         result: 'La OPA fue retirada; el grupo cerró su ronda con una valoración un 22% superior.',
+        figures: [
+          { value: '22%', label: 'valoración superior al cierre' },
+          { value: '6 sem', label: 'de la OPA a la retirada' },
+          { value: '3', label: 'jurisdicciones coordinadas' },
+        ],
+        quote: 'LexCore se movió más rápido que el mercado. El consejo nunca dudó de que la jugada estaba en buenas manos.',
+        quoteAttribution: 'Consejero General del grupo (anonimizado)',
       },
       {
+        ref: 'EXP-2024-02',
         client: 'Fundador de plataforma SaaS',
         sector: 'Litigios · Tech',
         tag: 'Arbitraje',
+        verdict: 'Demanda desestimada. Control intacto. Costas recuperadas.',
         challenge:
           'Un ex-inversor inició un arbitraje reclamando derechos de control sobre una plataforma ahora valorada 10x la ronda inicial.',
         solution:
           'Una revisión forense de actas y e-discovery expuso inconsistencias en la demanda.',
         result: 'Demanda desestimada; nuestro cliente recuperó costas y mantuvo el control total.',
+        figures: [
+          { value: '10x', label: 'valor vs ronda inicial' },
+          { value: '0', label: 'derechos de control perdidos' },
+          { value: '100%', label: 'costas recuperadas' },
+        ],
+        quote: 'Íbamos perdiendo sobre el papel. En la audiencia, nunca pareció estar cerca.',
+        quoteAttribution: 'Fundador (anonimizado)',
       },
       {
+        ref: 'EXP-2024-03',
         client: 'Family office',
         sector: 'Fiscal · Inmobiliario',
         tag: 'Estructuración internacional',
+        verdict: 'Exposición reducida un 31%. Todas las jurisdicciones validadas.',
         challenge:
           'Exposición a doble imposición en tres jurisdicciones sobre una cartera de 120M €.',
         solution:
           'Una reestructuración basada en convenios migró la cartera a una estructura holding neutral y conforme.',
         result: 'Carga fiscal efectiva reducida un 31% con plena aprobación regulatoria.',
+        figures: [
+          { value: '31%', label: 'carga efectiva reducida' },
+          { value: '120M €', label: 'cartera reestructurada' },
+          { value: '3', label: 'jurisdicciones neutralizadas' },
+        ],
+        quote: 'Discreto, preciso, terminado. Exactamente lo que un family office espera pagar.',
+        quoteAttribution: 'Principal del family office (anonimizado)',
       },
     ],
     cta: 'Casos completos disponibles bajo petición',

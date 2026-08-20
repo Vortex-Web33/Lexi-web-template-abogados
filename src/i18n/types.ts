@@ -51,6 +51,13 @@ export interface Translation {
     paragraphs: string[];
     values: { title: string; text: string }[];
     stats: { value: string; label: string }[];
+    officeLine: string;
+    salutation: string;
+    marginNotes: string[];
+    stampLabel: string;
+    psTitle: string;
+    annexTitle: string;
+    closing: string;
   };
   services: {
     title: string;
@@ -58,16 +65,30 @@ export interface Translation {
     items: { title: string; text: string; index: string }[];
     cta: string;
   };
-  caseStudy: {
+caseStudy: {
     title: string;
     intro: string;
+    redactionNote: string;
+    labels: {
+      threat: string;
+      move: string;
+      outcome: string;
+      keyFigures: string;
+      resolved: string;
+      shelfHint: string;
+    };
     cases: {
+      ref: string;
       client: string;
       sector: string;
+      tag: string;
+      verdict: string;
       challenge: string;
       solution: string;
       result: string;
-      tag: string;
+      figures: { value: string; label: string }[];
+      quote: string;
+      quoteAttribution: string;
     }[];
     cta: string;
   };

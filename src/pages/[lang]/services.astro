@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import { locales } from '../../i18n';
 import type { Locale } from '../../i18n';
 import { getTranslation } from '../../i18n';
@@ -11,42 +12,78 @@ export function getStaticPaths() {
 
 const locale = Astro.currentLocale as Locale;
 const t = getTranslation(locale);
+
+const contact = getRelativeLocaleUrl(locale, 'contact');
 ---
 
-<Base locale={locale} title={`${t.services.title} — LexCore`} description={t.meta.description}>
-  <section class="px-6 pb-12 pt-16 text-center md:px-14 md:pt-24" data-reveal>
-    <h1 class="text-balance text-4xl font-bold uppercase tracking-tight text-ink md:text-6xl">
+<!--
+THESIS: The practice docket is the page — a fixed rail holds the promise and the action while the six areas scroll as a ruled register the visitor scans to find their matter. It refuses the centered hero + card grid category default.
+OWN-WORLD: ivory ground, hairline line rules, bronze serif numerals, Cormorant Garamond display, tracked sans meta, mocha pill CTA — the site's editorial register, split into rail and docket.
+STORY: A client with a concrete problem finds their practice in seconds, sees the partner-led promise, and books a consultation with the CTA that never leaves the rail.
+FIRST VIEWPORT: 2/3 split — left sticky rail with serif headline, intro and mocha CTA pinned; right hairline docket 01–06, each row a full-width link to contact with bronze hover arrow.
+FORM: split editorial register — dealt lead of surface roll 91226fda (key 91226fda).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+-->
+
+<section
+  class="grid gap-12 px-6 pb-24 pt-12 md:px-14 md:pt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-20"
+>
+  <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
+    <h1
+      class="text-balance font-serif text-5xl font-medium leading-[1.04] tracking-tight text-ink md:text-6xl xl:text-7xl"
+    >
       {t.services.title}
     </h1>
-    <p class="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-taupe md:text-base">
+    <p class="mt-7 max-w-md text-sm leading-relaxed text-taupe md:text-base">
       {t.services.intro}
     </p>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 md:px-10" data-reveal-group>
-    {
-      t.services.items.map((item) => (
-        <article class="flex flex-col gap-3 border-t border-line py-9 last:border-b md:flex-row md:items-start md:gap-10">
-          <span class="font-serif text-2xl font-medium italic text-bronze md:w-16 md:text-3xl">
-            {item.index}
-          </span>
-          <div>
-            <h2 class="font-serif text-2xl font-semibold text-ink md:text-[1.7rem]">
-              {item.title}
-            </h2>
-            <p class="mt-2.5 max-w-xl text-sm leading-relaxed text-taupe">{item.text}</p>
-          </div>
-        </article>
-      ))
-    }
-  </section>
-
-  <div class="px-6 pb-20 pt-12 text-center" data-reveal>
     <a
-      href={getRelativeLocaleUrl(locale, 'contact')}
-      class="inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+      href={contact}
+      class="mt-10 inline-flex items-center gap-2.5 rounded-full bg-mocha px-7 py-4 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
     >
       {t.services.cta}
+      <Icon name="lucide:arrow-up-right" class="h-3.5 w-3.5" aria-hidden="true" />
     </a>
+    <p
+      class="mt-12 flex items-center gap-3 text-[10px] font-medium uppercase tracking-luxe text-stone"
+      aria-hidden="true"
+    >
+      <span class="h-px w-8 bg-bronze"></span>
+      Madrid · Miami
+    </p>
   </div>
-</Base>
+
+  <ol class="border-t border-line" data-reveal-group>
+    {
+      t.services.items.map((item) => (
+        <li>
+          <a
+            href={contact}
+            class="group flex items-start gap-6 border-b border-line py-9 transition-colors duration-300 focus-visible:outline-offset-[-4px] md:gap-10 md:py-11"
+          >
+            <span
+              class="pt-1 font-serif text-2xl font-medium italic tabular-nums text-bronze md:w-14 md:text-3xl"
+              aria-hidden="true"
+            >
+              {item.index}
+            </span>
+            <div class="min-w-0 flex-1">
+              <h2
+                class="text-balance font-serif text-2xl font-semibold text-ink transition-colors duration-300 group-hover:text-bronze md:text-[1.75rem]"
+              >
+                {item.title}
+              </h2>
+              <p class="mt-2.5 max-w-xl text-sm leading-relaxed text-taupe">{item.text}</p>
+            </div>
+            <span
+              class="mt-2 shrink-0 text-bronze opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:-translate-x-2"
+              aria-hidden="true"
+            >
+              <Icon name="lucide:arrow-up-right" class="h-5 w-5" />
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</section>

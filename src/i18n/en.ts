@@ -133,6 +133,13 @@ const en: Translation = {
       { value: '95%', label: 'Client Approval' },
       { value: '6K+', label: 'Clients Worldwide' },
     ],
+    officeLine: 'Law firm · Madrid & Miami',
+    salutation: 'Dear client,',
+    marginNotes: ['Origins', 'The Method', 'Our Clients'],
+    stampLabel: 'ENGRAVED',
+    psTitle: 'P.S. — Our commitment',
+    annexTitle: 'Enclosure · The firm in figures',
+    closing: 'Sincerely,',
   },
   services: {
     title: 'Practice Areas',
@@ -176,35 +183,71 @@ const en: Translation = {
     title: 'Case Studies',
     intro:
       'A selection of matters our clients have asked us to share. Names and sensitive details are redacted by design.',
+    redactionNote: 'Matters anonymised by design · quotes reconstructed for illustration',
+    labels: {
+      threat: 'The Threat',
+      move: 'The Move',
+      outcome: 'The Outcome',
+      keyFigures: 'Key Figures',
+      resolved: 'Resolved',
+      shelfHint: 'Scroll to walk the archive',
+    },
     cases: [
       {
+        ref: 'EXP-2024-01',
         client: 'Cross-Border Manufacturing Group',
         sector: 'M&A · Spain / USA',
         tag: 'Acquisition Defence',
+        verdict: 'The bid was withdrawn. The round closed 22% higher.',
         challenge:
           'A hostile bid threatened the group’s independence six weeks before a critical financing round.',
         solution:
           'We structured a defensive alliance, negotiated a standstill and reworked the financing in parallel tracks.',
         result: 'The bid was withdrawn; the group closed its round at a 22% higher valuation.',
+        figures: [
+          { value: '22%', label: 'higher valuation at close' },
+          { value: '6 wks', label: 'from bid to withdrawal' },
+          { value: '3', label: 'jurisdictions coordinated' },
+        ],
+        quote: 'LexCore moved faster than the market did. The board never doubted the play was in safe hands.',
+        quoteAttribution: 'Group General Counsel (anonymised)',
       },
       {
+        ref: 'EXP-2024-02',
         client: 'Founder of SaaS Platform',
         sector: 'Litigation · Tech',
         tag: 'Arbitration',
+        verdict: 'Claim dismissed. Control retained. Costs recovered.',
         challenge:
           'A former investor filed arbitration claiming control rights over a platform now worth 10x the initial round.',
         solution:
           'A forensic review of board minutes and e-discovery exposed inconsistencies in the claimant’s case.',
         result: 'Claim dismissed; our client recovered costs and retained full control.',
+        figures: [
+          { value: '10x', label: 'value vs initial round' },
+          { value: '0', label: 'control rights lost' },
+          { value: '100%', label: 'costs recovered' },
+        ],
+        quote: 'We were outgunned on paper. In the hearing, it never looked close.',
+        quoteAttribution: 'Founder (anonymised)',
       },
       {
+        ref: 'EXP-2024-03',
         client: 'Family Office',
         sector: 'Tax · Real Estate',
         tag: 'International Structuring',
+        verdict: 'Exposure cut by 31%. Every jurisdiction cleared.',
         challenge: 'Exposure to double taxation across three jurisdictions on a €120M portfolio.',
         solution:
           'A treaty-based restructuring migrated the portfolio into a neutral, compliant holding structure.',
         result: 'Effective tax burden reduced by 31% with full regulatory clearance.',
+        figures: [
+          { value: '31%', label: 'effective burden reduced' },
+          { value: '€120M', label: 'portfolio restructured' },
+          { value: '3', label: 'jurisdictions neutralised' },
+        ],
+        quote: 'Quiet, precise, finished. That is exactly what a family office pays for.',
+        quoteAttribution: 'Family Office Principal (anonymised)',
       },
     ],
     cta: 'Read full case studies on request',

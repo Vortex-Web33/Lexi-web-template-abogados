@@ -1,4 +1,6 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import { locales } from '../../i18n';
 import type { Locale } from '../../i18n';
 import { getTranslation } from '../../i18n';
@@ -10,69 +12,234 @@ export function getStaticPaths() {
 
 const locale = Astro.currentLocale as Locale;
 const t = getTranslation(locale);
+const contact = getRelativeLocaleUrl(locale, 'contact');
+const notes = t.about.marginNotes;
+
+const stats = t.about.stats.map((s) => {
+  const parts = s.value.match(/^([\d.,]+)(.*)$/);
+  return { label: s.label, num: parts?.[1] ?? s.value, suffix: parts?.[2] ?? '' };
+});
 ---
 
 <Base locale={locale} title={`${t.about.title} — LexCore`} description={t.meta.description}>
-  <section class="px-6 pb-14 pt-16 text-center md:px-14 md:pt-24" data-reveal>
-    <h1 class="text-balance text-4xl font-bold uppercase tracking-tight text-ink md:text-6xl">
+  <!-- MEMBRETE -->
+  <!--
+    THESIS: the about page is a letter from the firm to the client — the one-document form that makes partner-led, discreet, precise legible at once; it refuses the team/cards grid and the hero-metric template.
+    OWN-WORLD: ivory paper, double hairlines and bronze diamonds (letterhead rules), Cormorant italic salutation and signature, Inter body at reading measure with margin notes, watermark LEXCORE in the paper, Lady Justice as an engraved plate, tabular Cormorant numerals in the enclosure.
+    STORY: the visitor reads the firm's own letter — origins, method, clients — trusts the postscript of commitments and the enclosed figures, and signs off by booking the free consultation.
+    FIRST VIEWPORT: centered letterhead (double rule · LexCore. · Madrid & Miami · double rule) over the watermark; below, the letter column: serif subject title, italic salutation, drop-cap intro at reading size.
+    FORM: Firm Correspondence / Letterhead — dealt structure 6 of 7 on the surface roll, seed key 090bb0d8; user locked card "Carta de los Socios".
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+  -->
+  <section class="relative overflow-hidden" data-reveal>
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 block select-none whitespace-nowrap text-center font-serif text-[max(8rem,18vw)] font-bold uppercase leading-none text-watermark mask-[linear-gradient(to_bottom,black_35%,transparent_100%)]"
+    >
+      LEXCORE
+    </span>
+    <div class="relative mx-auto max-w-5xl px-6 pb-12 pt-24 text-center md:px-10 md:pb-16 md:pt-32">
+      <div class="mx-auto flex max-w-2xl items-center gap-3 md:gap-4" aria-hidden="true">
+        <span class="h-px flex-1 bg-ink/25"></span>
+        <span class="h-1.5 w-1.5 rotate-45 bg-bronze"></span>
+        <span class="h-px flex-1 bg-ink/25"></span>
+      </div>
+      <p class="mt-7 font-serif text-5xl font-semibold tracking-tight text-ink md:text-6xl">
+        LexCore<span class="text-bronze">.</span>
+      </p>
+      <p class="mt-4 text-[10px] font-medium uppercase tracking-luxe text-stone md:text-[11px]">
+        {t.about.officeLine}
+      </p>
+      <div
+        class="mx-auto mt-7 flex max-w-2xl items-center gap-3 md:mt-8 md:gap-4"
+        aria-hidden="true"
+      >
+        <span class="h-px flex-1 bg-ink/25"></span>
+        <span class="h-1.5 w-1.5 rotate-45 bg-bronze"></span>
+        <span class="h-px flex-1 bg-ink/25"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTA -->
+  <section class="mx-auto max-w-3xl px-6 md:px-10" data-reveal>
+    <h1
+      class="text-balance font-serif text-3xl font-semibold leading-tight tracking-tight text-ink md:text-[2.6rem]"
+    >
       {t.about.title}
     </h1>
-    <p class="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-taupe md:text-base">
+    <p class="mt-10 font-serif text-2xl font-medium italic text-cocoa md:text-[1.75rem]">
+      {t.about.salutation}
+    </p>
+    <p
+      class="mt-6 text-[15px] leading-[1.8] text-taupe first-letter:float-left first-letter:mr-2.5 first-letter:font-serif first-letter:text-[3.2rem] first-letter:font-semibold first-letter:leading-[0.82] first-letter:text-ink md:text-base"
+    >
       {t.about.intro}
     </p>
   </section>
 
-  <section
-    class="mx-auto max-w-2xl space-y-6 px-6 pb-16 text-[15px] leading-relaxed text-taupe md:px-10 md:text-base"
-    data-reveal
-  >
-    {t.about.paragraphs.map((p) => <p>{p}</p>)}
+  <!-- CUERPO DE LA CARTA -->
+  <section class="mx-auto mt-14 max-w-3xl space-y-12 px-6 md:mt-20 md:space-y-14 md:px-10">
+    {
+      t.about.paragraphs.map((p, i) => (
+        <div class="md:grid md:grid-cols-[9.5rem_1fr] md:gap-10" data-reveal>
+          <p class="mb-2.5 text-[10px] font-medium uppercase tracking-luxe text-stone md:mb-0 md:pt-1.5">
+            {notes[i]}
+          </p>
+          <p class="text-[15px] leading-[1.8] text-taupe md:text-base">{p}</p>
+        </div>
+      ))
+    }
   </section>
 
-  <section class="relative overflow-hidden" data-reveal>
-    <img
-      src="/images/dama-justicia.jpg"
-      alt={t.hero.imageAlt}
-      width="1066"
-      height="1600"
-      class="h-[340px] w-full object-cover object-top md:h-[460px]"
-      loading="lazy"
-      decoding="async"
-    />
-    <div
-      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"
-      aria-hidden="true"
+  <!-- ESTAMPA -->
+  <section class="mx-auto mt-20 max-w-5xl px-6 md:mt-28 md:px-10" data-reveal>
+    <figure class="border border-line p-2 md:p-3">
+      <div class="border border-line">
+        <img
+          src="/images/dama-justicia.jpg"
+          alt={t.hero.imageAlt}
+          width="1066"
+          height="1600"
+          class="h-[320px] w-full object-cover object-top brightness-[0.94] contrast-[1.04] saturate-[0.8] sepia-[0.16] md:h-[480px]"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <figcaption class="mt-4 flex items-baseline justify-between gap-4 px-1">
+        <span class="flex min-w-0 items-baseline gap-3">
+          <span
+            aria-hidden="true"
+            class="h-1.5 w-1.5 shrink-0 translate-y-[-1px] rotate-45 bg-bronze"></span>
+          <span class="truncate text-[12px] tracking-wide text-taupe md:text-[13px]">
+            {t.hero.imageAlt}
+          </span>
+        </span>
+        <span class="shrink-0 text-[9px] font-medium uppercase tracking-luxe text-stone">
+          {t.about.stampLabel}
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- POSDATA -->
+  <section class="mx-auto mt-20 max-w-5xl px-6 md:mt-28 md:px-10">
+    <h2
+      class="text-balance font-serif text-2xl font-semibold italic text-ink md:text-[2rem]"
+      data-reveal
     >
-    </div>
-  </section>
-
-  <section class="border-t border-line">
-    <div class="grid md:grid-cols-2" data-reveal-group>
+      {t.about.psTitle}
+    </h2>
+    <div class="mt-4 grid md:grid-cols-2 md:gap-x-10" data-reveal-group>
       {
         t.about.values.map((v, i) => (
           <div
-            class={`px-8 py-10 md:px-12 ${i % 2 === 1 ? 'md:border-l md:border-line' : ''} ${i >= 2 ? 'border-t border-line' : ''}`}
+            class={`border-t border-line py-8 md:py-10 ${i % 2 === 1 ? 'md:border-l md:pl-10' : 'md:pr-10'}`}
           >
-            <h2 class="font-serif text-2xl font-semibold italic text-ink">{v.title}</h2>
-            <p class="mt-3 text-sm leading-relaxed text-taupe">{v.text}</p>
+            <h3 class="flex items-center gap-3 font-serif text-2xl font-semibold italic text-ink">
+              <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rotate-45 bg-bronze" />
+              {v.title}
+            </h3>
+            <p class="mt-3 pl-5 text-sm leading-relaxed text-taupe md:text-[15px]">{v.text}</p>
           </div>
         ))
       }
     </div>
   </section>
 
-  <section class="border-t border-line px-6 py-12 md:px-16">
-    <div class="grid grid-cols-2 md:grid-cols-4" data-reveal-group>
+  <!-- ANEXO -->
+  <section class="mx-auto mt-20 max-w-3xl px-6 md:mt-28 md:px-10">
+    <h2
+      class="text-balance font-serif text-2xl font-semibold italic text-ink md:text-[2rem]"
+      data-reveal
+    >
+      {t.about.annexTitle}
+    </h2>
+    <div class="mt-4" data-reveal-group>
       {
-        t.about.stats.map((s, i) => (
-          <div
-            class={`px-4 py-6 text-center ${i % 2 === 1 ? 'border-l border-line' : ''} ${i >= 2 ? 'border-t border-line md:border-t-0' : ''} ${i >= 2 ? 'md:border-l' : ''}`}
-          >
-            <p class="text-3xl font-bold tabular-nums text-ink md:text-4xl">{s.value}</p>
-            <p class="mt-2 text-[10px] uppercase tracking-luxe-sm text-taupe">{s.label}</p>
+        stats.map((s) => (
+          <div class="flex items-baseline justify-between gap-6 border-t border-line py-6 md:py-7">
+            <p class="font-serif text-4xl font-semibold tabular-nums leading-none tracking-tight text-ink md:text-5xl">
+              {s.num}
+              <span class="text-bronze">{s.suffix}</span>
+            </p>
+            <p class="text-right text-[10px] font-medium uppercase tracking-luxe text-taupe md:text-[11px]">
+              {s.label}
+            </p>
           </div>
         ))
       }
+      <div class="border-t border-line" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <section
+    class="mx-auto max-w-3xl px-6 pb-10 pt-20 text-center md:px-10 md:pb-16 md:pt-28"
+    data-signature
+  >
+    <p class="font-serif text-xl font-medium italic text-taupe md:text-2xl" data-reveal>
+      {t.about.closing}
+    </p>
+    <p
+      class="mt-6 font-serif text-6xl font-semibold italic leading-none tracking-tight text-ink md:text-7xl"
+      data-reveal
+    >
+      LexCore<span class="text-bronze">.</span>
+    </p>
+    <svg viewBox="0 0 340 44" class="mx-auto mt-5 h-11 w-72 text-bronze md:w-80" aria-hidden="true">
+      <path
+        d="M8 32 C 60 6, 118 36, 168 18 S 250 14, 332 26"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        data-signature-stroke></path>
+    </svg>
+    <p class="mx-auto mt-8 max-w-sm text-xs leading-relaxed text-taupe" data-reveal>
+      {t.contact.form.note}
+    </p>
+    <div data-reveal>
+      <a
+        href={contact}
+        class="mt-10 inline-flex items-center gap-2 rounded-full bg-mocha px-7 py-4 text-xs font-medium uppercase tracking-luxe text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+      >
+        {t.hero.cta}
+        <Icon name="lucide:arrow-up-right" class="h-3 w-3" />
+      </a>
     </div>
   </section>
 </Base>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const path = document.querySelector<SVGPathElement>('[data-signature-stroke]');
+    if (!path) return;
+
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = String(len);
+    path.style.strokeDashoffset = String(len);
+
+    gsap.fromTo(
+      path,
+      { strokeDashoffset: len },
+      {
+        strokeDashoffset: 0,
+        duration: 1.8,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: '[data-signature]',
+          start: 'top 72%',
+          once: true,
+        },
+      },
+    );
+  });
+</script>
