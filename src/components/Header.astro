@@ -21,7 +21,7 @@ const linkTo = (path: string) => getRelativeLocaleUrl(locale, path);
 const isActive = (path: string) => rest === path;
 ---
 
-<header class="relative z-40 border-b border-line bg-ivory">
+<header class="fixed inset-x-0 top-0 z-40 border-b border-line bg-ivory">
   <div class="relative flex h-14 items-center justify-between px-5 md:h-16 md:px-10">
     <a href={linkTo('')} class="flex items-baseline gap-0.5" aria-label="LexCore">
       <span class="font-serif text-[22px] font-semibold tracking-tight text-ink">LexCore</span>

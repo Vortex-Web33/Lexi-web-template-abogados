@@ -54,7 +54,7 @@ const image = new URL(t.meta.ogImage, Astro.site).toString();
   </head>
   <body class="min-h-screen bg-ivory">
     <Header locale={locale} t={t} rest={rest} />
-    <main>
+    <main class="pt-14 md:pt-16">
       <slot />
     </main>
     <Footer locale={locale} t={t} />
