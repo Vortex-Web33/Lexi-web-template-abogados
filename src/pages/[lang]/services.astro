@@ -14,20 +14,35 @@ const locale = Astro.currentLocale as Locale;
 const t = getTranslation(locale);
 
 const contact = getRelativeLocaleUrl(locale, 'contact');
+
+// PROVENANCE: docket exhibit imagery. 01 office.jpg y 02 dama-justicia.jpg ya residían en el repo.
+// 03–06 descargadas de Unsplash (licencia Unsplash) el 2026-08-20:
+// 03 https://unsplash.com/photos/new-york-stock-exchange-building-facade-with-columns-1QSXCd0LHVs (photo-1761233138981-50a88922c852)
+// 04 https://unsplash.com/photos/modern-luxury-home-with-large-windows-at-dusk-G48h926L2qo (photo-1757359056339-22968344cce6)
+// 05 https://unsplash.com/photos/a-bronze-mermaid-figurine-sits-among-some-coins-zfHiLYHM4Tk (photo-1751315874123-f12fdc12130c)
+// 06 https://unsplash.com/photos/a-building-with-columns-and-a-sign-that-says-court-dappel-731R9d4C3b0 (photo-1646158061615-0c52beb831a2)
+const docketImages = [
+  '/images/office.jpg',
+  '/images/dama-justicia.jpg',
+  '/images/services/03-ma.jpg',
+  '/images/services/04-family.jpg',
+  '/images/services/05-tax.jpg',
+  '/images/services/06-regulatory.jpg',
+];
 ---
 
-<!--
-THESIS: The practice docket is the page — a fixed rail holds the promise and the action while the six areas scroll as a ruled register the visitor scans to find their matter. It refuses the centered hero + card grid category default.
-OWN-WORLD: ivory ground, hairline line rules, bronze serif numerals, Cormorant Garamond display, tracked sans meta, mocha pill CTA — the site's editorial register, split into rail and docket.
-STORY: A client with a concrete problem finds their practice in seconds, sees the partner-led promise, and books a consultation with the CTA that never leaves the rail.
-FIRST VIEWPORT: 2/3 split — left sticky rail with serif headline, intro and mocha CTA pinned; right hairline docket 01–06, each row a full-width link to contact with bronze hover arrow.
-FORM: split editorial register — dealt lead of surface roll 91226fda (key 91226fda).
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
--->
-
-<section
-  class="grid gap-12 px-6 pb-24 pt-12 md:px-14 md:pt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-20"
->
+<Base locale={locale} title={`${t.services.title} — LexCore`} description={t.meta.description}>
+  <section
+    class="grid gap-12 px-6 pb-24 pt-12 md:px-14 md:pt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-20"
+  >
+    <!--
+    THESIS: The practice docket is the page — a fixed rail holds the promise and the action while the six areas scroll as a ruled register the visitor scans to find their matter. It refuses the centered hero + card grid category default.
+    OWN-WORLD: ivory ground, hairline line rules, bronze serif numerals, Cormorant Garamond display, tracked sans meta, mocha pill CTA — the site's editorial register, split into rail and docket.
+    STORY: A client with a concrete problem finds their practice in seconds, sees the partner-led promise, and books a consultation with the CTA that never leaves the rail.
+    FIRST VIEWPORT: 2/3 split — left sticky rail with serif headline, intro and mocha CTA pinned; right hairline docket 01–06, each row a full-width link to contact with bronze hover arrow.
+    FORM: split editorial register — dealt lead of surface roll 91226fda (key 91226fda).
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+    -->
   <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
     <h1
       class="text-balance font-serif text-5xl font-medium leading-[1.04] tracking-tight text-ink md:text-6xl xl:text-7xl"
@@ -55,10 +70,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
   <ol class="border-t border-line" data-reveal-group>
     {
-      t.services.items.map((item) => (
-        <li>
+      t.services.items.map((item, i) => (
+        <li class="relative">
           <a
             href={contact}
+            data-docket
             class="group flex items-start gap-6 border-b border-line py-9 transition-colors duration-300 focus-visible:outline-offset-[-4px] md:gap-10 md:py-11"
           >
             <span
@@ -82,8 +98,30 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
               <Icon name="lucide:arrow-up-right" class="h-5 w-5" />
             </span>
           </a>
+          <div
+            class="pointer-events-none invisible fixed left-0 top-0 z-40 w-44 xl:w-52"
+            data-docket-image
+            aria-hidden="true"
+          >
+            <figure class="border border-line bg-ivory p-2 shadow-[0_24px_60px_-24px_rgba(43,32,23,0.35)]">
+              <img
+                src={docketImages[i]}
+                alt=""
+                class="aspect-[3/4] w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="flex items-center justify-between px-1 pt-2">
+                <span class="font-serif text-xs italic tracking-wide text-bronze">
+                  EXP {item.index}
+                </span>
+                <span class="h-px w-6 bg-bronze" aria-hidden="true"></span>
+              </figcaption>
+            </figure>
+          </div>
         </li>
       ))
     }
   </ol>
-</section>
+  </section>
+</Base>

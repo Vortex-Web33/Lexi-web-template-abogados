@@ -54,7 +54,6 @@ export interface Translation {
     officeLine: string;
     salutation: string;
     marginNotes: string[];
-    stampLabel: string;
     psTitle: string;
     annexTitle: string;
     closing: string;
@@ -65,7 +64,7 @@ export interface Translation {
     items: { title: string; text: string; index: string }[];
     cta: string;
   };
-caseStudy: {
+  caseStudy: {
     title: string;
     intro: string;
     redactionNote: string;
@@ -73,7 +72,6 @@ caseStudy: {
       threat: string;
       move: string;
       outcome: string;
-      keyFigures: string;
       resolved: string;
       shelfHint: string;
     };
@@ -91,6 +89,7 @@ caseStudy: {
       quoteAttribution: string;
     }[];
     cta: string;
+    ctaLead: string;
   };
   contact: {
     title: string;

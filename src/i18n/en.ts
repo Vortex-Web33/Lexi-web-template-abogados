@@ -136,7 +136,6 @@ const en: Translation = {
     officeLine: 'Law firm · Madrid & Miami',
     salutation: 'Dear client,',
     marginNotes: ['Origins', 'The Method', 'Our Clients'],
-    stampLabel: 'ENGRAVED',
     psTitle: 'P.S. — Our commitment',
     annexTitle: 'Enclosure · The firm in figures',
     closing: 'Sincerely,',
@@ -188,7 +187,6 @@ const en: Translation = {
       threat: 'The Threat',
       move: 'The Move',
       outcome: 'The Outcome',
-      keyFigures: 'Key Figures',
       resolved: 'Resolved',
       shelfHint: 'Scroll to walk the archive',
     },
@@ -209,7 +207,8 @@ const en: Translation = {
           { value: '6 wks', label: 'from bid to withdrawal' },
           { value: '3', label: 'jurisdictions coordinated' },
         ],
-        quote: 'LexCore moved faster than the market did. The board never doubted the play was in safe hands.',
+        quote:
+          'LexCore moved faster than the market did. The board never doubted the play was in safe hands.',
         quoteAttribution: 'Group General Counsel (anonymised)',
       },
       {
@@ -251,6 +250,7 @@ const en: Translation = {
       },
     ],
     cta: 'Read full case studies on request',
+    ctaLead: 'Your matter could be the next file in this archive.',
   },
   contact: {
     title: 'Book a free consultation',

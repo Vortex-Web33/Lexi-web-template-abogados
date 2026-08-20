@@ -1,0 +1,251 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<section
+  data-horizontal-scroll
+  class={['relative border-t border-line', className].filter(Boolean).join(' ')}
+>
+  <div data-horizontal-track class="flex flex-col">
+    <slot />
+  </div>
+
+  <div
+    aria-hidden="true"
+    data-horizontal-progress
+    class="pointer-events-none absolute right-6 top-20 z-10 hidden flex-col items-end gap-2.5 lg:right-14"
+  >
+    <p class="flex items-baseline gap-1.5 font-serif text-2xl font-semibold leading-none text-ink">
+      <span data-horizontal-count>01</span>
+      <span data-horizontal-total class="font-sans text-xs font-normal text-stone">/ 00</span>
+    </p>
+    <span class="relative block h-px w-24 overflow-hidden bg-line">
+      <span data-horizontal-bar class="absolute inset-0 origin-left scale-x-0 bg-bronze"></span>
+    </span>
+  </div>
+</section>
+
+<style is:global>
+  @media (min-width: 768px) {
+    [data-horizontal-scroll].hs-horizontal {
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    .hs-horizontal [data-horizontal-track] {
+      height: 100%;
+      flex-direction: row;
+      will-change: transform;
+    }
+
+    .hs-horizontal [data-horizontal-panel] {
+      border-top-width: 0;
+      border-left-width: 1px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .hs-horizontal [data-horizontal-progress] {
+      display: flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-hs-rise],
+    .js [data-hs-clip],
+    .js [data-hs-stamp],
+    .js [data-hs-count] {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const shelves = gsap.utils.toArray<HTMLElement>('[data-horizontal-scroll]');
+    if (!shelves.length) return;
+
+    const fmt = new Intl.NumberFormat(document.documentElement.lang ?? 'en-US');
+
+    const animateFigures = (scope: HTMLElement, vars: gsap.TweenVars = {}) => {
+      scope.querySelectorAll<HTMLElement>('[data-hs-count]').forEach((el) => {
+        const raw = el.textContent ?? '';
+        const m = raw.match(/^([^\d]*)([\d.,]+)(.*)$/);
+        if (!m) return;
+        const prefix = m[1];
+        const suffix = m[3];
+        const target = parseInt(m[2].replace(/[.,]/g, ''), 10) || 0;
+        const counter = { v: 0 };
+        gsap.to(counter, {
+          v: target,
+          duration: 1.4,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = prefix + fmt.format(Math.round(counter.v)) + suffix;
+          },
+          ...vars,
+        });
+      });
+    };
+
+    mm.add('(max-width: 767px)', () => {
+      shelves.forEach((shelf) => {
+        const track = shelf.querySelector<HTMLElement>('[data-horizontal-track]');
+        if (!track) return;
+        gsap.utils.toArray<HTMLElement>('[data-horizontal-panel]', track).forEach((panel) => {
+          gsap.fromTo(
+            panel,
+            { y: 56, autoAlpha: 0 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: { trigger: panel, start: 'top 88%', once: true },
+            },
+          );
+
+          animateFigures(panel, {
+            scrollTrigger: { trigger: panel, start: 'top 80%', once: true },
+          });
+        });
+      });
+    });
+
+    mm.add('(min-width: 768px)', () => {
+      shelves.forEach((shelf) => {
+        const track = shelf.querySelector<HTMLElement>('[data-horizontal-track]');
+        const count = shelf.querySelector<HTMLElement>('[data-horizontal-count]');
+        const total = shelf.querySelector<HTMLElement>('[data-horizontal-total]');
+        const bar = shelf.querySelector<HTMLElement>('[data-horizontal-bar]');
+        if (!track) return;
+
+        const panels = Array.from(track.children).filter((el) =>
+          el.hasAttribute('data-horizontal-panel'),
+        ) as HTMLElement[];
+        const panelCount = panels.length;
+
+        shelf.classList.add('hs-horizontal');
+        if (total) total.textContent = '/ ' + String(panelCount).padStart(2, '0');
+
+        const getAmount = () => track.scrollWidth - window.innerWidth;
+
+        const tween = gsap.to(track, {
+          x: () => -getAmount(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: shelf,
+            start: 'top top',
+            end: () => '+=' + getAmount(),
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        let current = 0;
+        tween.eventCallback('onUpdate', () => {
+          const p = tween.progress();
+          if (bar) bar.style.transform = `scaleX(${p})`;
+          const idx = Math.min(panelCount - 1, Math.round(p * (panelCount - 1)));
+          if (idx !== current) {
+            current = idx;
+            if (count) count.textContent = String(idx + 1).padStart(2, '0');
+          }
+        });
+
+        panels.forEach((panel) => {
+          const container = { containerAnimation: tween };
+
+          gsap.utils.toArray<HTMLElement>('[data-hs-rise]', panel).forEach((el) => {
+            gsap.fromTo(
+              el,
+              { y: 44, autoAlpha: 0 },
+              {
+                y: 0,
+                autoAlpha: 1,
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.07,
+                scrollTrigger: {
+                  trigger: panel,
+                  start: 'left 72%',
+                  end: 'left 30%',
+                  scrub: true,
+                  ...container,
+                },
+              },
+            );
+          });
+
+          gsap.utils.toArray<HTMLElement>('[data-hs-clip]', panel).forEach((el) => {
+            gsap.fromTo(
+              el,
+              { clipPath: 'inset(0 0 100% 0)', yPercent: 8, autoAlpha: 0 },
+              {
+                clipPath: 'inset(0 0 0% 0)',
+                yPercent: 0,
+                autoAlpha: 1,
+                duration: 1.2,
+                ease: 'power4.out',
+                stagger: 0.1,
+                scrollTrigger: {
+                  trigger: panel,
+                  start: 'left 80%',
+                  end: 'left 45%',
+                  scrub: true,
+                  ...container,
+                },
+              },
+            );
+          });
+
+          const stamp = panel.querySelector<HTMLElement>('[data-hs-stamp]');
+          if (stamp) {
+            gsap.fromTo(
+              stamp,
+              { scale: 2.4, rotation: -12, autoAlpha: 0 },
+              {
+                scale: 1,
+                rotation: 0,
+                autoAlpha: 1,
+                duration: 1.1,
+                ease: 'power2.out',
+                transformOrigin: '50% 50%',
+                scrollTrigger: {
+                  trigger: panel,
+                  start: 'left 62%',
+                  end: 'left 30%',
+                  scrub: true,
+                  ...container,
+                },
+              },
+            );
+          }
+
+          animateFigures(panel, {
+            scrollTrigger: {
+              trigger: panel,
+              start: 'left 55%',
+              end: 'left 45%',
+              once: true,
+              containerAnimation: tween,
+            },
+          });
+        });
+      });
+    });
+  });
+</script>

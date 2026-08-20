@@ -5,6 +5,7 @@ import { locales } from '../../i18n';
 import type { Locale } from '../../i18n';
 import { getTranslation } from '../../i18n';
 import Base from '../../layouts/Base.astro';
+import CountUp from '../../components/CountUp.astro';
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -17,21 +18,29 @@ const notes = t.about.marginNotes;
 
 const stats = t.about.stats.map((s) => {
   const parts = s.value.match(/^([\d.,]+)(.*)$/);
-  return { label: s.label, num: parts?.[1] ?? s.value, suffix: parts?.[2] ?? '' };
+  const raw = parts?.[1] ?? s.value;
+  const digits = raw.replace(/[^\d]/g, '');
+  const isK = /K/i.test(raw);
+  return {
+    label: s.label,
+    value: parseInt(digits, 10) || 0,
+    unit: isK ? 'K' : '',
+    suffix: parts?.[2] ?? '',
+  };
 });
 ---
 
 <Base locale={locale} title={`${t.about.title} — LexCore`} description={t.meta.description}>
   <!-- MEMBRETE -->
-  <!--
+  <section class="relative overflow-hidden" data-reveal>
+    <!--
     THESIS: the about page is a letter from the firm to the client — the one-document form that makes partner-led, discreet, precise legible at once; it refuses the team/cards grid and the hero-metric template.
-    OWN-WORLD: ivory paper, double hairlines and bronze diamonds (letterhead rules), Cormorant italic salutation and signature, Inter body at reading measure with margin notes, watermark LEXCORE in the paper, Lady Justice as an engraved plate, tabular Cormorant numerals in the enclosure.
+    OWN-WORLD: ivory paper, double hairlines and bronze diamonds (letterhead rules), Cormorant italic salutation and signature, Inter body at reading measure with margin notes, watermark LEXCORE in the paper, Lady Justice as a near-invisible watermark behind the postscript, tabular Cormorant numerals counted up in the enclosure.
     STORY: the visitor reads the firm's own letter — origins, method, clients — trusts the postscript of commitments and the enclosed figures, and signs off by booking the free consultation.
     FIRST VIEWPORT: centered letterhead (double rule · LexCore. · Madrid & Miami · double rule) over the watermark; below, the letter column: serif subject title, italic salutation, drop-cap intro at reading size.
     FORM: Firm Correspondence / Letterhead — dealt structure 6 of 7 on the surface roll, seed key 090bb0d8; user locked card "Carta de los Socios".
     FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
-  -->
-  <section class="relative overflow-hidden" data-reveal>
+    -->
     <span
       aria-hidden="true"
       class="pointer-events-none absolute inset-x-0 top-0 block select-none whitespace-nowrap text-center font-serif text-[max(8rem,18vw)] font-bold uppercase leading-none text-watermark mask-[linear-gradient(to_bottom,black_35%,transparent_100%)]"
@@ -92,58 +101,41 @@ const stats = t.about.stats.map((s) => {
     }
   </section>
 
-  <!-- ESTAMPA -->
-  <section class="mx-auto mt-20 max-w-5xl px-6 md:mt-28 md:px-10" data-reveal>
-    <figure class="border border-line p-2 md:p-3">
-      <div class="border border-line">
-        <img
-          src="/images/dama-justicia.jpg"
-          alt={t.hero.imageAlt}
-          width="1066"
-          height="1600"
-          class="h-[320px] w-full object-cover object-top brightness-[0.94] contrast-[1.04] saturate-[0.8] sepia-[0.16] md:h-[480px]"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-      <figcaption class="mt-4 flex items-baseline justify-between gap-4 px-1">
-        <span class="flex min-w-0 items-baseline gap-3">
-          <span
-            aria-hidden="true"
-            class="h-1.5 w-1.5 shrink-0 translate-y-[-1px] rotate-45 bg-bronze"></span>
-          <span class="truncate text-[12px] tracking-wide text-taupe md:text-[13px]">
-            {t.hero.imageAlt}
-          </span>
-        </span>
-        <span class="shrink-0 text-[9px] font-medium uppercase tracking-luxe text-stone">
-          {t.about.stampLabel}
-        </span>
-      </figcaption>
-    </figure>
-  </section>
-
   <!-- POSDATA -->
-  <section class="mx-auto mt-20 max-w-5xl px-6 md:mt-28 md:px-10">
-    <h2
-      class="text-balance font-serif text-2xl font-semibold italic text-ink md:text-[2rem]"
-      data-reveal
-    >
-      {t.about.psTitle}
-    </h2>
-    <div class="mt-4 grid md:grid-cols-2 md:gap-x-10" data-reveal-group>
-      {
-        t.about.values.map((v, i) => (
-          <div
-            class={`border-t border-line py-8 md:py-10 ${i % 2 === 1 ? 'md:border-l md:pl-10' : 'md:pr-10'}`}
-          >
-            <h3 class="flex items-center gap-3 font-serif text-2xl font-semibold italic text-ink">
-              <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rotate-45 bg-bronze" />
-              {v.title}
-            </h3>
-            <p class="mt-3 pl-5 text-sm leading-relaxed text-taupe md:text-[15px]">{v.text}</p>
-          </div>
-        ))
-      }
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0" aria-hidden="true">
+      <img
+        src="/images/dama-justicia.jpg"
+        alt=""
+        width="1066"
+        height="1600"
+        class="h-full w-full object-cover object-[center_35%] opacity-[0.07] saturate-[0.85] sepia-[0.2]"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="relative mx-auto max-w-5xl px-6 py-20 md:px-10 md:py-28">
+      <h2
+        class="text-balance font-serif text-2xl font-semibold italic text-ink md:text-[2rem]"
+        data-reveal
+      >
+        {t.about.psTitle}
+      </h2>
+      <div class="mt-4 grid md:grid-cols-2 md:gap-x-10" data-reveal-group>
+        {
+          t.about.values.map((v, i) => (
+            <div
+              class={`border-t border-line py-8 md:py-10 ${i % 2 === 1 ? 'md:border-l md:pl-10' : 'md:pr-10'}`}
+            >
+              <h3 class="flex items-center gap-3 font-serif text-2xl font-semibold italic text-ink">
+                <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rotate-45 bg-bronze" />
+                {v.title}
+              </h3>
+              <p class="mt-3 pl-5 text-sm leading-relaxed text-taupe md:text-[15px]">{v.text}</p>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -158,15 +150,13 @@ const stats = t.about.stats.map((s) => {
     <div class="mt-4" data-reveal-group>
       {
         stats.map((s) => (
-          <div class="flex items-baseline justify-between gap-6 border-t border-line py-6 md:py-7">
-            <p class="font-serif text-4xl font-semibold tabular-nums leading-none tracking-tight text-ink md:text-5xl">
-              {s.num}
-              <span class="text-bronze">{s.suffix}</span>
-            </p>
-            <p class="text-right text-[10px] font-medium uppercase tracking-luxe text-taupe md:text-[11px]">
-              {s.label}
-            </p>
-          </div>
+          <CountUp
+            value={s.value}
+            suffix={s.suffix}
+            unit={s.unit}
+            label={s.label}
+            locale={t.htmlLang}
+          />
         ))
       }
       <div class="border-t border-line" aria-hidden="true"></div>

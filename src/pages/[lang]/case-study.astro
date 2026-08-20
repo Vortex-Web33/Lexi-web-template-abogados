@@ -1,9 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import { locales } from '../../i18n';
 import type { Locale } from '../../i18n';
 import { getTranslation } from '../../i18n';
 import Base from '../../layouts/Base.astro';
+import HorizontalScroll from '../../components/HorizontalScroll.astro';
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -11,52 +13,190 @@ export function getStaticPaths() {
 
 const locale = Astro.currentLocale as Locale;
 const t = getTranslation(locale);
+const cases = t.caseStudy.cases;
 ---
 
 <Base locale={locale} title={`${t.caseStudy.title} — LexCore`} description={t.meta.description}>
-  <section class="px-6 pb-12 pt-16 text-center md:px-14 md:pt-24" data-reveal>
+  <section class="px-6 pb-14 pt-16 text-center md:px-14 md:pt-24" data-reveal>
+    <!--
+      THESIS: The archive walk — cases as physical files on a shelf you travel sideways; refuses the flat list.
+      OWN-WORLD: LexCore editorial (ivory/ink/mocha/bronze, Cormorant + Inter, hairlines, luxe tracking) + watermark refs, circular stamp, tabular figures.
+      STORY: The visitor walks three files, reads each verdict first, believes the firm wins discreetly, books a consultation.
+      FIRST VIEWPORT: H1 + intro + three fanned file spines (ref/tag/sector) + hint "scroll to walk the archive".
+      FORM: Precedent Shelf (HorizontalScroll component), dealt lead of surface round 2 (seed 32522201, reroll 1, indices 6/7/5, lead 6); pinned horizontal scrub on md+ with page pin, stacked reveal fallback.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+    -->
     <h1 class="text-balance text-4xl font-bold uppercase tracking-tight text-ink md:text-6xl">
       {t.caseStudy.title}
     </h1>
     <p class="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-taupe md:text-base">
       {t.caseStudy.intro}
     </p>
+    <p class="mt-5 text-[10px] uppercase text-luxe-sm text-stone">
+      {t.caseStudy.redactionNote}
+    </p>
+
+    <div class="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-3" data-reveal-group>
+      {
+        cases.map((c, i) => (
+          <div
+            class:list={[
+              'group relative border border-line bg-ivory-deep/70 px-5 py-6 text-left transition-all duration-500 ease-out hover:-translate-y-2 hover:rotate-0 hover:border-bronze/40 hover:bg-ivory-deep',
+              i === 0 && '-rotate-1',
+              i === 1 && 'rotate-[0.5deg]',
+              i === 2 && 'rotate-[1.5deg]',
+            ]}
+          >
+            <span class="text-[10px] uppercase text-luxe-sm text-stone">{c.ref}</span>
+            <p class="mt-2 font-serif text-xl font-semibold text-ink">{c.tag}</p>
+            <p class="mt-1 text-[10px] uppercase text-luxe-sm text-taupe">{c.sector}</p>
+            <p class="mt-4 line-clamp-2 text-xs leading-snug text-taupe">{c.verdict}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 inline-flex items-center gap-2.5 text-[10px] uppercase text-luxe-sm text-stone">
+      <Icon name="lucide:arrow-down" class="h-3 w-3 text-bronze" aria-hidden="true" />
+      {t.caseStudy.labels.shelfHint}
+    </p>
   </section>
 
-  <section class="mx-auto max-w-4xl px-6 md:px-10" data-reveal-group>
+  <HorizontalScroll>
     {
-      t.caseStudy.cases.map((c) => (
-        <article class="border-t border-line py-10 last:border-b">
-          <div class="flex flex-wrap items-baseline justify-between gap-3">
-            <span class="text-[10px] uppercase tracking-luxe-sm text-stone">{c.tag}</span>
-            <span class="text-[10px] uppercase tracking-luxe text-taupe">{c.sector}</span>
+      cases.map((c, i) => (
+        <article
+          data-horizontal-panel
+          class:list={[
+            'relative flex min-w-full flex-col justify-center overflow-hidden px-6 py-16 md:px-14 lg:px-20',
+            'border-t border-line',
+          ]}
+        >
+          <span
+            aria-hidden="true"
+            class="pointer-events-none absolute -right-4 top-1/2 select-none -translate-y-1/2 font-serif text-[9rem] font-bold leading-none text-watermark md:text-[16rem]"
+          >
+            {String(i + 1).padStart(2, '0')}
+          </span>
+
+          <div class="relative mx-auto w-full max-w-5xl">
+            <header class="flex items-start justify-between gap-6" data-hs-rise>
+              <div class="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+                <span class="text-[10px] uppercase text-luxe-sm text-stone">{c.ref}</span>
+                <span class="text-[10px] uppercase text-luxe-sm text-bronze">{c.tag}</span>
+                <span class="text-[10px] uppercase tracking-luxe text-taupe">{c.sector}</span>
+              </div>
+              <div class="stamp shrink-0" data-hs-stamp aria-hidden="true">
+                <svg viewBox="0 0 120 120" class="h-16 w-16 md:h-20 md:w-20">
+                  <circle cx="60" cy="60" r="57" fill="none" stroke="var(--color-bronze)" stroke-opacity="0.5" stroke-width="1.5"></circle>
+                  <circle cx="60" cy="60" r="51" fill="none" stroke="var(--color-bronze)" stroke-opacity="0.3" stroke-width="1"></circle>
+                  <defs>
+                    <path
+                      id={`stamp-ring-${c.ref}`}
+                      d="M 60,60 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"
+                      fill="none"
+                    ></path>
+                  </defs>
+                  <text
+                    fill="var(--color-bronze)"
+                    style="font-size: 9px; letter-spacing: 0.18em; font-family: 'Cormorant Garamond Variable', Georgia, serif; font-weight: 600; text-transform: uppercase;"
+                  >
+                    <textPath href={`#stamp-ring-${c.ref}`}>
+                      {t.caseStudy.labels.resolved} · {t.caseStudy.labels.resolved} ·{' '}
+                      {t.caseStudy.labels.resolved} ·
+                    </textPath>
+                  </text>
+                </svg>
+              </div>
+            </header>
+
+            <h2
+              class="mt-8 max-w-4xl text-balance font-serif text-[clamp(2.2rem,4.4vw,4.2rem)] font-semibold leading-[1.08] tracking-tight text-ink md:mt-10"
+              data-hs-clip
+            >
+              {c.verdict}
+            </h2>
+
+            <figure class="mt-7 max-w-2xl border-l border-line pl-5 md:mt-9" data-hs-clip>
+              <blockquote class="font-serif text-lg italic leading-relaxed text-taupe md:text-xl">
+                “{c.quote}”
+              </blockquote>
+              <figcaption class="mt-2 text-[10px] uppercase text-luxe-sm text-stone">
+                — {c.quoteAttribution}
+              </figcaption>
+            </figure>
+
+            <div class="mt-7 grid gap-x-10 md:grid-cols-2 md:mt-9">
+              <div class="border-t border-line py-6" data-hs-rise>
+                <p class="flex items-baseline gap-3">
+                  <span class="font-serif text-lg italic text-bronze">01</span>
+                  <span class="text-[10px] uppercase text-luxe-sm text-stone">
+                    {t.caseStudy.labels.threat}
+                  </span>
+                </p>
+                <p class="mt-3 max-w-[46ch] text-sm leading-relaxed text-taupe md:text-[15px]">
+                  {c.challenge}
+                </p>
+              </div>
+              <div class="border-t border-line py-6 md:border-l md:pl-10" data-hs-rise>
+                <p class="flex items-baseline gap-3">
+                  <span class="font-serif text-lg italic text-bronze">02</span>
+                  <span class="text-[10px] uppercase text-luxe-sm text-stone">
+                    {t.caseStudy.labels.move}
+                  </span>
+                </p>
+                <p class="mt-3 max-w-[46ch] text-sm leading-relaxed text-taupe md:text-[15px]">
+                  {c.solution}
+                </p>
+              </div>
+            </div>
+
+            <div class="border-t border-line pt-6" data-hs-rise>
+              <p class="flex items-baseline gap-3">
+                <span class="font-serif text-lg italic text-bronze">03</span>
+                <span class="text-[10px] uppercase text-luxe-sm text-stone">
+                  {t.caseStudy.labels.outcome}
+                </span>
+              </p>
+              <div class="mt-3 grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-end md:gap-12">
+                <p class="max-w-[52ch] text-base font-medium leading-relaxed text-ink md:text-lg">
+                  {c.result}
+                </p>
+                <div class="grid grid-cols-3 gap-4">
+                  {
+                    c.figures.map((f) => (
+                      <div>
+                        <p
+                          class="font-serif text-2xl font-semibold tabular-nums leading-none text-ink md:text-3xl"
+                          data-hs-count
+                        >
+                          {f.value}
+                        </p>
+                        <p class="mt-2 text-[9px] uppercase leading-relaxed text-luxe-sm text-taupe">
+                          {f.label}
+                        </p>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
           </div>
-          <h2 class="mt-4 font-serif text-2xl font-semibold text-ink md:text-3xl">{c.client}</h2>
-          <dl class="mt-7 grid gap-6 md:grid-cols-3 md:gap-10">
-            <div>
-              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Challenge</dt>
-              <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.challenge}</dd>
-            </div>
-            <div>
-              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Solution</dt>
-              <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.solution}</dd>
-            </div>
-            <div>
-              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Result</dt>
-              <dd class="mt-2 text-sm font-medium leading-relaxed text-ink">{c.result}</dd>
-            </div>
-          </dl>
         </article>
       ))
     }
-  </section>
+  </HorizontalScroll>
 
-  <div class="px-6 pb-20 pt-12 text-center" data-reveal>
+  <div class="px-6 pb-20 pt-16 text-center" data-reveal>
+    <p class="mx-auto max-w-xl text-balance font-serif text-2xl font-medium italic leading-snug text-taupe md:text-3xl">
+      {t.caseStudy.ctaLead}
+    </p>
     <a
       href={getRelativeLocaleUrl(locale, 'contact')}
-      class="inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+      class="mt-9 inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
     >
       {t.caseStudy.cta}
+      <Icon name="lucide:arrow-up-right" class="h-3 w-3" aria-hidden="true" />
     </a>
   </div>
 </Base>

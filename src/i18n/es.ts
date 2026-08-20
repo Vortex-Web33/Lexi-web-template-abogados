@@ -135,7 +135,6 @@ const es: Translation = {
     officeLine: 'Despacho de abogados · Madrid & Miami',
     salutation: 'Estimado cliente,',
     marginNotes: ['Orígenes', 'El método', 'Nuestros clientes'],
-    stampLabel: 'ESTAMPADO',
     psTitle: 'P.S. — Nuestro compromiso',
     annexTitle: 'Anexo · El despacho en cifras',
     closing: 'Atentamente,',
@@ -187,7 +186,6 @@ const es: Translation = {
       threat: 'La Amenaza',
       move: 'La Maniobra',
       outcome: 'El Desenlace',
-      keyFigures: 'Cifras Clave',
       resolved: 'Resuelto',
       shelfHint: 'Desplázate para recorrer el archivo',
     },
@@ -208,7 +206,8 @@ const es: Translation = {
           { value: '6 sem', label: 'de la OPA a la retirada' },
           { value: '3', label: 'jurisdicciones coordinadas' },
         ],
-        quote: 'LexCore se movió más rápido que el mercado. El consejo nunca dudó de que la jugada estaba en buenas manos.',
+        quote:
+          'LexCore se movió más rápido que el mercado. El consejo nunca dudó de que la jugada estaba en buenas manos.',
         quoteAttribution: 'Consejero General del grupo (anonimizado)',
       },
       {
@@ -251,6 +250,7 @@ const es: Translation = {
       },
     ],
     cta: 'Casos completos disponibles bajo petición',
+    ctaLead: 'Tu asunto podría ser el siguiente expediente del archivo.',
   },
   contact: {
     title: 'Reserva una consulta gratuita',
