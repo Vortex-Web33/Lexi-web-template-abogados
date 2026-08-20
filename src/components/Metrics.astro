@@ -19,7 +19,9 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
             i % 2 === 1 ? 'border-l border-line' : ''
           } ${i >= 2 ? 'border-t border-line md:border-t-0' : ''} ${i >= 2 ? 'md:border-l' : ''}`}
         >
-          <p class="text-4xl font-bold tabular-nums tracking-tight text-ink md:text-5xl">{m.value}</p>
+          <p class="text-4xl font-bold tabular-nums tracking-tight text-ink md:text-5xl">
+            {m.value}
+          </p>
           <p class="mt-3 text-[10px] uppercase tracking-luxe-sm text-taupe">{m.label}</p>
         </div>
       ))
@@ -32,25 +34,33 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
       class="block h-24 w-24 rounded-full md:h-28 md:w-28 motion-safe:animate-[spin_18s_linear_infinite]"
       aria-label={t.hero.cta}
     >
-      <svg
-        viewBox="0 0 120 120"
-        class="h-full w-full"
-        role="img"
-        aria-hidden="true"
-      >
-      <circle cx="60" cy="60" r="58" fill="var(--color-mocha)" />
-      <circle cx="60" cy="60" r="54" fill="none" stroke="var(--color-ivory)" stroke-opacity="0.35" stroke-width="1.5" />
-      <defs>
-        <path id="badge-circle" d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" fill="none" />
-      </defs>
-      <text class="fill-ivory" style="font-size: 8.5px; letter-spacing: 0.2em; font-family: 'Inter Variable', sans-serif;">
-        <textPath href="#badge-circle">{t.scrollBadge}</textPath>
-      </text>
-      <g stroke="var(--color-ivory)" stroke-width="2.5" stroke-linecap="round" fill="none">
-        <path d="M60 42v34" />
-        <path d="M52 68l8 8 8-8" />
-      </g>
-    </svg>
+      <svg viewBox="0 0 120 120" class="h-full w-full" role="img" aria-hidden="true">
+        <circle cx="60" cy="60" r="58" fill="var(--color-mocha)"></circle>
+        <circle
+          cx="60"
+          cy="60"
+          r="54"
+          fill="none"
+          stroke="var(--color-ivory)"
+          stroke-opacity="0.35"
+          stroke-width="1.5"></circle>
+        <defs>
+          <path
+            id="badge-circle"
+            d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"
+            fill="none"></path>
+        </defs>
+        <text
+          class="fill-ivory"
+          style="font-size: 8.5px; letter-spacing: 0.2em; font-family: 'Inter Variable', sans-serif;"
+        >
+          <textPath href="#badge-circle">{t.scrollBadge}</textPath>
+        </text>
+        <g stroke="var(--color-ivory)" stroke-width="2.5" stroke-linecap="round" fill="none">
+          <path d="M60 42v34"></path>
+          <path d="M52 68l8 8 8-8"></path>
+        </g>
+      </svg>
     </a>
   </div>
 </section>

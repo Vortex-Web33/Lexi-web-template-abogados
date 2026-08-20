@@ -1,12 +1,12 @@
 ---
-import { locales } from "../../i18n";
-import type { Locale } from "../../i18n";
-import { getTranslation } from "../../i18n";
-import Base from "../../layouts/Base.astro";
-import Hero from "../../components/Hero.astro";
-import Statement from "../../components/Statement.astro";
-import Metrics from "../../components/Metrics.astro";
-import ImageSection from "../../components/ImageSection.astro";
+import { locales } from '../../i18n';
+import type { Locale } from '../../i18n';
+import { getTranslation } from '../../i18n';
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Statement from '../../components/Statement.astro';
+import Metrics from '../../components/Metrics.astro';
+import ImageSection from '../../components/ImageSection.astro';
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));

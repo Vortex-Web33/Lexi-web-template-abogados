@@ -29,7 +29,10 @@ const isActive = (path: string) => rest === path;
       <span class="text-lg font-bold text-bronze">.</span>
     </a>
 
-    <nav aria-label="Main" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex">
+    <nav
+      aria-label="Main"
+      class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex"
+    >
       {
         navItems.map((item) => (
           <a
@@ -75,9 +78,9 @@ const isActive = (path: string) => rest === path;
         aria-label="Menu"
         class="menu-toggle flex h-10 w-10 flex-col items-center justify-center gap-[6px] rounded-full border border-line lg:hidden"
       >
-        <span />
-        <span />
-        <span />
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </div>
   </div>
@@ -109,7 +112,9 @@ const isActive = (path: string) => rest === path;
             }`}
           >
             {item.label}
-            <span class="font-sans text-xs uppercase text-luxe-sm text-stone" aria-hidden="true">→</span>
+            <span class="font-sans text-xs uppercase text-luxe-sm text-stone" aria-hidden="true">
+              →
+            </span>
           </a>
         ))
       }
@@ -147,9 +152,9 @@ const isActive = (path: string) => rest === path;
   const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
 
   const focusables = () =>
-    Array.from(panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []).filter(
-      (el) => el.offsetParent !== null || el.getAttribute('aria-hidden') !== 'true',
-    );
+    Array.from(
+      panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [],
+    ).filter((el) => el.offsetParent !== null || el.getAttribute('aria-hidden') !== 'true');
 
   const trapFocus = (e: KeyboardEvent) => {
     if (e.key !== 'Tab') return;

@@ -8,25 +8,26 @@ p1_count: 3
 timestamp: 2026-08-20T16-24-21Z
 slug: src-pages-lang-index-astro
 ---
+
 # Critica de Diseño / UX — LexCore Landing Page
 
 **Method: dual-agent**
 
 ## Design Health Score
 
-| # | Heuristica | Puntaje | Problema clave |
-|---|-----------|---------|----------------|
-| 1 | Visibilidad del estado | 2 | Badge "SCROLL TO EXPLORE" sin progreso real; sin indicador de posicion |
-| 2 | Match con el mundo real | 2 | Watermark "LAWYER" sin traducir en /es/; "6K+"; registro informal |
-| 3 | Control y libertad | 3 | Esc y links cierran el menu, sin focus trap |
-| 4 | Consistencia y estandares | 2 | Numeros contradictorios; marca duplicada; icono CTA header SVG inline vs lucide |
-| 5 | Prevencion de errores | 3 | Sin formularios en el home; stats contradictorios |
-| 6 | Reconocimiento | 3 | Badge circular parece boton pero es pointer-events-none |
-| 7 | Flexibilidad y eficiencia | n/a | Superficie persuasiva de una pantalla |
-| 8 | Estetica minimalista | 2 | Hero atestado (6 objetos focales) |
-| 9 | Recuperacion de errores | n/a | Nada puede fallar en el home |
-| 10 | Ayuda y documentacion | 1 | Footer help es texto muerto; sin FAQ |
-| **Total** | | **18/32 (56%)** | **Aceptable** |
+| #         | Heuristica                | Puntaje         | Problema clave                                                                  |
+| --------- | ------------------------- | --------------- | ------------------------------------------------------------------------------- |
+| 1         | Visibilidad del estado    | 2               | Badge "SCROLL TO EXPLORE" sin progreso real; sin indicador de posicion          |
+| 2         | Match con el mundo real   | 2               | Watermark "LAWYER" sin traducir en /es/; "6K+"; registro informal               |
+| 3         | Control y libertad        | 3               | Esc y links cierran el menu, sin focus trap                                     |
+| 4         | Consistencia y estandares | 2               | Numeros contradictorios; marca duplicada; icono CTA header SVG inline vs lucide |
+| 5         | Prevencion de errores     | 3               | Sin formularios en el home; stats contradictorios                               |
+| 6         | Reconocimiento            | 3               | Badge circular parece boton pero es pointer-events-none                         |
+| 7         | Flexibilidad y eficiencia | n/a             | Superficie persuasiva de una pantalla                                           |
+| 8         | Estetica minimalista      | 2               | Hero atestado (6 objetos focales)                                               |
+| 9         | Recuperacion de errores   | n/a             | Nada puede fallar en el home                                                    |
+| 10        | Ayuda y documentacion     | 1               | Footer help es texto muerto; sin FAQ                                            |
+| **Total** |                           | **18/32 (56%)** | **Aceptable**                                                                   |
 
 ## Verdicto de Especificidad de Diseño
 

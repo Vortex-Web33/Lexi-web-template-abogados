@@ -27,7 +27,12 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
   if (hero) {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.fromTo('[data-hero-title]', { y: 56, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.1 })
-      .fromTo('[data-hero-meta]', { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9 }, '-=0.7')
+      .fromTo(
+        '[data-hero-meta]',
+        { y: 28, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.9 },
+        '-=0.7',
+      )
       .fromTo(
         '[data-hero-visual]',
         { autoAlpha: 0, scale: 0.96 },
