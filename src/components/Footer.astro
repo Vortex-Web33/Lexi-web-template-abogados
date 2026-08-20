@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Icon } from 'astro-icon/components';
 import type { Locale, Translation } from '../i18n';
 
 interface Props {
@@ -11,41 +12,57 @@ const { locale, t } = Astro.props;
 
 const linkTo = (href: string) =>
   href.startsWith('mailto:') ? href : getRelativeLocaleUrl(locale, href);
+
+const isContact = (href: string) => href.startsWith('mailto:');
 ---
 
-<footer class="border-t border-line bg-ivory-deep px-6 py-12 md:px-14 md:py-16">
-  <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-    <div>
-      <a href={getRelativeLocaleUrl(locale, '')} class="flex items-baseline gap-0.5">
-        <span class="font-serif text-2xl font-semibold text-ink">LexCore</span>
+<footer class="border-t border-line bg-ivory-deep px-6 py-16 md:px-14 md:py-20 lg:px-20">
+  <div
+    class="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-16"
+    data-reveal-group
+  >
+    <div class="max-w-sm">
+      <a href={getRelativeLocaleUrl(locale, '')} aria-label="LexCore" class="flex items-baseline gap-0.5">
+        <span class="font-serif text-2xl font-semibold tracking-tight text-ink">LexCore</span>
         <span class="text-lg font-bold text-bronze">.</span>
       </a>
-      <p class="mt-4 max-w-xs text-xs leading-relaxed text-taupe">{t.footer.tagline}</p>
+      <p class="mt-5 text-sm leading-relaxed text-taupe">{t.footer.tagline}</p>
     </div>
+
     {
       t.footer.columns.map((col) => (
-        <div>
-          <h3 class="text-[10px] uppercase tracking-luxe text-stone">{col.heading}</h3>
-          <ul class="mt-4 space-y-2.5">
+        <nav aria-label={col.heading}>
+          <h3 class="text-xs font-medium uppercase tracking-luxe text-stone">{col.heading}</h3>
+          <ul class="mt-5 space-y-1 md:space-y-2.5">
             {col.links.map((link) => (
               <li>
                 <a
                   href={linkTo(link.href)}
-                  class="text-xs text-taupe transition-colors hover:text-ink"
+                  class="group inline-flex min-h-11 items-center gap-2 text-sm text-taupe transition-colors duration-300 hover:text-ink md:min-h-0"
                 >
-                  {link.label}
+                  {isContact(link.href) && (
+                    <Icon name="lucide:mail" class="h-3.5 w-3.5 shrink-0 text-bronze" aria-hidden="true" />
+                  )}
+                  <span class="relative inline-block">
+                    {link.label}
+                    <span
+                      aria-hidden="true"
+                      class="absolute -bottom-[3px] left-0 h-px w-full origin-left scale-x-0 bg-bronze transition-transform duration-300 group-hover:scale-x-100"
+                    ></span>
+                  </span>
                 </a>
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
       ))
     }
   </div>
+
   <div
-    class="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[10px] uppercase tracking-luxe text-stone sm:flex-row sm:items-center sm:justify-between"
+    class="mt-14 flex flex-col gap-3 border-t border-ink/10 pt-6 sm:flex-row sm:items-center sm:justify-between md:mt-16"
   >
-    <p>© {new Date().getFullYear()} LexCore. {t.footer.rights}</p>
-    <p>{t.footer.madeWith}</p>
+    <p class="text-xs leading-relaxed text-taupe">© {new Date().getFullYear()} LexCore. {t.footer.rights}</p>
+    <p class="text-xs uppercase tracking-luxe text-stone">{t.footer.madeWith}</p>
   </div>
 </footer>

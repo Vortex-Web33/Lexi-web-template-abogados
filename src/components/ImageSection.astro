@@ -8,27 +8,142 @@ interface Props {
 const { t } = Astro.props;
 ---
 
-<section class="relative overflow-hidden" data-reveal>
-  <div class="overflow-hidden" data-parallax>
-    <img
-      src="/images/office.jpg"
-      alt={t.imageSection.caption}
-      width="2000"
-      height="1335"
-      class="h-[240px] w-full object-cover object-[center_35%] brightness-[0.92] contrast-[1.05] saturate-[0.85] sepia-[0.18] md:h-[340px] lg:h-[400px]"
-      loading="lazy"
-      decoding="async"
-      data-parallax-target
-    />
+<section class="relative overflow-hidden py-24 md:py-32 lg:py-40" data-image-section>
+  <div class="mx-auto w-full max-w-[1280px] px-6 md:px-14 lg:px-20">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
+      <div
+        class="flex items-end justify-between gap-6 lg:col-span-3 lg:flex-col lg:items-start lg:justify-start lg:gap-10 lg:pb-6"
+        data-img-meta
+      >
+        <span
+          class="font-serif text-[clamp(3rem,8vw,4.75rem)] font-bold uppercase leading-none tracking-[-0.01em] text-watermark"
+          aria-hidden="true"
+        >
+          01
+        </span>
+        <div class="flex items-center gap-4 lg:w-full lg:flex-col lg:items-start lg:gap-6">
+          <span class="block h-px w-14 bg-bronze" aria-hidden="true"></span>
+          <p class="text-[10px] uppercase tracking-luxe text-stone">MMXXVI</p>
+        </div>
+      </div>
+
+      <figure class="lg:col-span-9">
+        <div class="relative">
+          <div class="absolute inset-0" data-img-frame>
+            <div
+              class="pointer-events-none absolute -inset-4 hidden border border-line md:block"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="pointer-events-none absolute -top-4 -left-4 hidden h-7 w-7 border-t border-l border-bronze md:block"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="pointer-events-none absolute -right-4 -bottom-4 hidden h-7 w-7 border-r border-b border-bronze md:block"
+              aria-hidden="true"
+            ></div>
+          </div>
+
+          <div
+            class="relative overflow-hidden bg-ivory-deep will-change-[clip-path]"
+            data-parallax
+            data-img-reveal-wrap
+          >
+            <img
+              src="/images/office.jpg"
+              alt={t.imageSection.caption}
+              width="2000"
+              height="1335"
+              class="h-[300px] w-full object-cover object-[center_35%] brightness-[0.92] contrast-[1.05] saturate-[0.85] sepia-[0.18] will-change-transform sm:h-[440px] lg:h-[540px]"
+              loading="lazy"
+              decoding="async"
+              data-parallax-target
+            />
+          </div>
+        </div>
+
+        <figcaption
+          class="mt-7 flex flex-col gap-3 border-t border-line pt-5 md:mt-10 md:flex-row md:items-baseline md:justify-between md:gap-8 md:pt-6"
+          data-img-caption
+        >
+          <p class="max-w-lg text-sm leading-relaxed text-taupe md:text-[15px]">
+            {t.imageSection.caption}
+          </p>
+          <p class="shrink-0 text-[10px] uppercase tracking-luxe text-stone">01 — MMXXVI</p>
+        </figcaption>
+      </figure>
+    </div>
   </div>
-  <div
-    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent"
-    aria-hidden="true"
-  >
-  </div>
-  <p
-    class="absolute bottom-5 left-6 right-6 text-balance text-[10px] uppercase leading-relaxed tracking-luxe text-ivory/90 md:left-10 md:right-auto md:max-w-sm md:text-[11px]"
-  >
-    {t.imageSection.caption}
-  </p>
 </section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-img-reveal-wrap] {
+      clip-path: inset(0 0 100% 0);
+    }
+    .js [data-img-meta],
+    .js [data-img-frame],
+    .js [data-img-caption] {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const section = document.querySelector<HTMLElement>('[data-image-section]');
+    if (!section) return;
+
+    const wrap = section.querySelector<HTMLElement>('[data-img-reveal-wrap]');
+    if (wrap) {
+      gsap.fromTo(
+        wrap,
+        { clipPath: 'inset(0 0 100% 0)' },
+        {
+          clipPath: 'inset(0 0 0% 0)',
+          ease: 'none',
+          immediateRender: true,
+          scrollTrigger: {
+            trigger: wrap,
+            start: 'top 90%',
+            end: 'bottom 40%',
+            scrub: 0.8,
+          },
+        },
+      );
+    }
+
+    const items: HTMLElement[] = [];
+    const meta = section.querySelector<HTMLElement>('[data-img-meta]');
+    const frame = section.querySelector<HTMLElement>('[data-img-frame]');
+    const caption = section.querySelector<HTMLElement>('[data-img-caption]');
+    if (meta) items.push(meta);
+    if (frame) items.push(frame);
+    if (caption) items.push(caption);
+
+    gsap.fromTo(
+      items,
+      { y: 26, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.15,
+        immediateRender: true,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 82%',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    );
+  });
+</script>

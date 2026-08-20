@@ -6,20 +6,91 @@ interface Props {
 }
 
 const { t } = Astro.props;
+
+const words = t.statement.segments.flatMap((s) =>
+  s.t.split(' ').map((word) => ({ word, strong: s.strong ?? false })),
+);
 ---
 
-<section class="px-8 py-20 text-center md:px-20 md:py-28" data-reveal-clip>
-  <p
-    class="mx-auto max-w-[70%] text-balance text-xl font-medium leading-[1.4] text-taupe md:text-[1.9rem] md:leading-[1.38]"
-  >
-    {
-      t.statement.segments.map((s) =>
-        s.strong ? (
-          <strong class="font-serif font-semibold italic text-ink">{s.t}</strong>
-        ) : (
-          <span>{s.t}</span>
-        ),
-      )
-    }
-  </p>
+<section class="px-8 py-20 md:px-20 md:py-32" data-statement>
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-12 flex items-center justify-center gap-5 md:mb-16" data-statement-meta>
+      <span aria-hidden="true" class="h-px w-14 bg-ink/15 md:w-24"></span>
+      <span aria-hidden="true" class="h-1.5 w-1.5 rotate-45 bg-bronze"></span>
+      <span aria-hidden="true" class="h-px w-14 bg-ink/15 md:w-24"></span>
+    </div>
+
+    <p
+      class="text-balance text-center font-serif text-2xl font-medium leading-[1.45] text-taupe md:text-[2.35rem] md:leading-[1.4]"
+    >
+      {
+        words.map((w, i) => (
+          <span class="inline-block overflow-hidden align-top" data-statement-word>
+            <span
+              class:list={[
+                'inline-block',
+                i < words.length - 1 && 'me-[0.26em]',
+                w.strong && 'font-semibold italic text-ink',
+              ]}
+              >{w.word}</span
+            >
+          </span>
+        ))
+      }
+    </p>
+  </div>
 </section>
+
+<style>
+  .js [data-statement-word] > span {
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const words = gsap.utils.toArray<HTMLElement>('[data-statement-word]');
+    if (!words.length) return;
+
+    gsap.fromTo(
+      words,
+      { yPercent: 115 },
+      {
+        yPercent: 0,
+        duration: 1.05,
+        ease: 'power3.out',
+        stagger: 0.035,
+        immediateRender: true,
+        scrollTrigger: {
+          trigger: '[data-statement]',
+          start: 'top 78%',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    );
+
+    gsap.fromTo(
+      '[data-statement-meta]',
+      { autoAlpha: 0, scale: 0.8 },
+      {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 0.7,
+        ease: 'power2.out',
+        immediateRender: true,
+        scrollTrigger: {
+          trigger: '[data-statement]',
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    );
+  });
+</script>

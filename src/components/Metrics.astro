@@ -8,30 +8,47 @@ interface Props {
 
 const { t } = Astro.props;
 const contact = getRelativeLocaleUrl(t.lang, 'contact');
+
+const stats = t.metrics.map((m) => {
+  const parts = m.value.match(/^([\d.,]+)(.*)$/);
+  return {
+    label: m.label,
+    num: parts?.[1] ?? m.value,
+    suffix: parts?.[2] ?? '',
+  };
+});
 ---
 
-<section class="relative px-6 pb-20 md:px-16 md:pb-24">
-  <div class="grid grid-cols-2 md:grid-cols-4" data-reveal-group>
-    {
-      t.metrics.map((m, i) => (
-        <div
-          class={`px-4 py-8 text-center md:px-8 md:py-10 ${
-            i % 2 === 1 ? 'border-l border-line' : ''
-          } ${i >= 2 ? 'border-t border-line md:border-t-0' : ''} ${i >= 2 ? 'md:border-l' : ''}`}
-        >
-          <p class="text-4xl font-bold tabular-nums tracking-tight text-ink md:text-5xl">
-            {m.value}
-          </p>
-          <p class="mt-3 text-[10px] uppercase tracking-luxe-sm text-taupe">{m.label}</p>
-        </div>
-      ))
-    }
+<section class="relative px-6 pb-24 pt-20 md:px-16 md:pb-32 md:pt-28">
+  <div class="mx-auto max-w-6xl border-t border-line">
+    <div class="grid grid-cols-2 lg:grid-cols-4" data-metrics data-locale={t.htmlLang}>
+      {
+        stats.map((s, i) => (
+          <div
+            class={`px-6 py-10 text-center md:px-8 md:py-14 ${
+              i % 2 === 1 ? 'border-l border-line' : ''
+            } ${i >= 2 ? 'border-t border-line lg:border-t-0' : ''} ${
+              i === 2 ? 'lg:border-l border-line' : ''
+            }`}
+          >
+            <p class="text-[10px] font-medium uppercase tracking-luxe-sm text-taupe md:text-[11px]">
+              {s.label}
+            </p>
+            <p
+              class="mt-4 font-serif text-[clamp(2.5rem,5.5vw,4rem)] font-semibold leading-none tracking-tight text-ink md:mt-6"
+            >
+              <span data-metric-num>{s.num}</span><span class="text-bronze">{s.suffix}</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
   </div>
 
-  <div class="absolute -bottom-12 left-1/2 z-20 -translate-x-1/2" data-reveal>
+  <div class="absolute -bottom-14 left-1/2 z-20 -translate-x-1/2" data-reveal>
     <a
       href={contact}
-      class="block h-24 w-24 rounded-full md:h-28 md:w-28 motion-safe:animate-[spin_18s_linear_infinite]"
+      class="block h-24 w-24 rounded-full transition-transform duration-500 ease-out hover:scale-105 md:h-28 md:w-28"
       aria-label={t.hero.cta}
     >
       <svg viewBox="0 0 120 120" class="h-full w-full" role="img" aria-hidden="true">
@@ -43,20 +60,24 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
           fill="none"
           stroke="var(--color-ivory)"
           stroke-opacity="0.35"
-          stroke-width="1.5"></circle>
+          stroke-width="1.5"
+        ></circle>
         <defs>
           <path
             id="badge-circle"
             d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"
-            fill="none"></path>
+            fill="none"
+          ></path>
         </defs>
-        <text
-          class="fill-ivory"
-          style="font-size: 8.5px; letter-spacing: 0.2em; font-family: 'Inter Variable', sans-serif;"
-        >
-          <textPath href="#badge-circle">{t.scrollBadge}</textPath>
-        </text>
-        <g stroke="var(--color-ivory)" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <g data-badge-text>
+          <text
+            class="fill-ivory"
+            style="font-size: 9px; letter-spacing: 0.16em; font-family: 'Cormorant Garamond Variable', Georgia, serif; font-weight: 600;"
+          >
+            <textPath href="#badge-circle">{t.scrollBadge}</textPath>
+          </text>
+        </g>
+        <g stroke="var(--color-ivory)" stroke-width="2" stroke-linecap="round" fill="none">
           <path d="M60 42v34"></path>
           <path d="M52 68l8 8 8-8"></path>
         </g>
@@ -64,3 +85,75 @@ const contact = getRelativeLocaleUrl(t.lang, 'contact');
     </a>
   </div>
 </section>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-metrics] > * {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const grid = document.querySelector<HTMLElement>('[data-metrics]');
+    if (!grid) return;
+
+    const items = Array.from(grid.children) as HTMLElement[];
+    const fmt = new Intl.NumberFormat(grid.dataset.locale ?? 'en-US');
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.out' },
+      scrollTrigger: {
+        trigger: grid,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
+      },
+    });
+
+    tl.fromTo(
+      items,
+      { y: 24, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.08, immediateRender: true },
+    );
+
+    const snapIncrement = 1 as unknown as gsap.TweenVars['snap'];
+
+    items.forEach((item, i) => {
+      const numEl = item.querySelector<HTMLElement>('[data-metric-num]');
+      if (!numEl) return;
+      const target = parseInt((numEl.textContent ?? '').replace(/[^\d]/g, ''), 10) || 0;
+      const counter = { v: 0 };
+      tl.to(
+        counter,
+        {
+          v: target,
+          duration: 1.6,
+          snap: snapIncrement,
+          onUpdate: () => {
+            numEl.textContent = fmt.format(Math.round(counter.v));
+          },
+        },
+        0.5 + i * 0.12,
+      );
+    });
+
+    const badgeText = document.querySelector<SVGGElement>('[data-badge-text]');
+    if (badgeText) {
+      gsap.to(badgeText, {
+        rotation: 360,
+        duration: 22,
+        ease: 'none',
+        repeat: -1,
+        transformOrigin: '50% 50%',
+      });
+    }
+  });
+</script>
