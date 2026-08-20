@@ -37,32 +37,38 @@ const ringText = t.imageSection.caption.split(' ').join(' · ');
   </div>
 
   <div class="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
-    <div
-      class="relative grid h-33 w-33 place-items-center rounded-full border border-ink/10 bg-ivory shadow-[0_16px_32px_rgba(43,32,23,0.14)] md:h-52 md:w-52"
-      data-medallion-disk
-    >
-      <svg
-        viewBox="0 0 100 100"
-        class="absolute inset-0 h-full w-full"
-        data-medallion-ring
+    <div class="relative">
+      <div
+        class="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ivory md:h-56 md:w-56"
+        style="clip-path: inset(0 0 50% 0)"
+        data-medallion-halo
+      ></div>
+
+      <div
+        class="relative grid h-33 w-33 place-items-center rounded-full border border-ivory/25 bg-ink md:h-52 md:w-52"
+        data-medallion-disk
       >
-        <defs>
-          <path
-            id="medallion-path"
-            d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-            fill="none"
-          ></path>
-        </defs>
-        <text
-          class="fill-bronze text-[7.5px] md:text-[9px]"
-          style={{ letterSpacing: '0.22em' }}
-        >
-          <textPath href="#medallion-path" startOffset="0%">
-            {ringText}
-          </textPath>
-        </text>
-      </svg>
-      <span class="h-2 w-2 rotate-45 bg-bronze md:h-3 md:w-3"></span>
+        <svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full" data-medallion-ring>
+          <defs>
+            <path
+              id="medallion-path"
+              d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+              fill="none"
+            ></path>
+          </defs>
+          <text
+            class="fill-ivory text-[7.5px] md:text-[9px]"
+            style={{ letterSpacing: '0.22em' }}
+          >
+            <textPath href="#medallion-path" startOffset="0%">
+              {ringText}
+            </textPath>
+          </text>
+        </svg>
+
+        <span class="absolute h-2/5 w-2/5 rounded-full border border-ivory/30" data-medallion-inner></span>
+        <span class="h-2 w-2 rotate-45 bg-bronze md:h-3 md:w-3"></span>
+      </div>
     </div>
   </div>
 </section>
@@ -82,7 +88,10 @@ const ringText = t.imageSection.caption.split(' ').join(' · ');
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const disk = document.querySelector<HTMLElement>('[data-medallion-disk]');
     const ring = document.querySelector<HTMLElement>('[data-medallion-ring]');
+    const inner = document.querySelector<HTMLElement>('[data-medallion-inner]');
+
     if (ring) {
       gsap.to(ring, {
         rotation: 360,
@@ -93,20 +102,32 @@ const ringText = t.imageSection.caption.split(' ').join(' · ');
       });
     }
 
-    gsap.fromTo(
-      '[data-medallion-disk]',
-      { y: -48 },
-      {
-        y: 52,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '[data-image-section]',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
+    if (disk) {
+      gsap.fromTo(
+        disk,
+        { y: -48 },
+        {
+          y: 52,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '[data-image-section]',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
         },
-      },
-    );
+      );
+
+      disk.addEventListener('mouseenter', () => {
+        gsap.to(disk, { scale: 1.06, duration: 0.45, ease: 'power3.out', overwrite: 'auto' });
+        if (inner) gsap.to(inner, { rotation: 90, duration: 0.6, ease: 'power2.out' });
+      });
+
+      disk.addEventListener('mouseleave', () => {
+        gsap.to(disk, { scale: 1, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
+        if (inner) gsap.to(inner, { rotation: 0, duration: 0.6, ease: 'power2.out' });
+      });
+    }
 
     gsap.fromTo(
       '[data-caption]',
