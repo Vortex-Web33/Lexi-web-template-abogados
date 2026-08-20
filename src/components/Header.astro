@@ -28,7 +28,7 @@ const isActive = (path: string) => rest === path;
       <span class="text-lg font-bold text-bronze">.</span>
     </a>
 
-    <nav aria-label="Main" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 md:flex">
+    <nav aria-label="Main" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex">
       {
         navItems.map((item) => (
           <a
@@ -58,25 +58,107 @@ const isActive = (path: string) => rest === path;
       </div>
       <a
         href={linkTo('contact')}
-        class="rounded-full bg-mocha px-5 py-2.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+        class="hidden rounded-full bg-mocha px-5 py-2.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa lg:inline-flex"
       >
         {t.nav.cta}
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6"/></svg>
       </a>
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Menu"
+        class="menu-toggle flex h-10 w-10 flex-col items-center justify-center gap-[6px] rounded-full border border-line lg:hidden"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
     </div>
   </div>
 
-  <nav aria-label="Main mobile" class="flex gap-6 overflow-x-auto px-5 py-3 md:hidden">
-    {
-      navItems.map((item) => (
-        <a
-          href={linkTo(item.path)}
-          class={`whitespace-nowrap text-xs font-medium uppercase text-luxe-sm ${
-            isActive(item.path) ? 'text-ink' : 'text-cocoa'
-          }`}
-        >
-          {item.label}
-        </a>
-      ))
-    }
-  </nav>
+  <div id="mobile-menu" data-menu-panel class="menu-panel lg:hidden" aria-hidden="true">
+    <div class="flex h-14 items-center justify-between border-b border-line px-5 md:h-16 md:px-10">
+      <span class="font-serif text-[22px] font-semibold tracking-tight text-ink">
+        LexCore<span class="text-bronze">.</span>
+      </span>
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-label="Close menu"
+        class="flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-ivory-deep"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M1 1l12 12M13 1L1 13" />
+        </svg>
+      </button>
+    </div>
+
+    <nav aria-label="Mobile" class="flex flex-col px-8 pt-8 md:px-12">
+      {
+        navItems.map((item) => (
+          <a
+            href={linkTo(item.path)}
+            class={`flex items-center justify-between border-b border-line py-5 font-serif text-3xl font-medium transition-colors hover:text-bronze md:text-4xl ${
+              isActive(item.path) ? 'text-ink' : 'text-cocoa'
+            }`}
+          >
+            {item.label}
+            <span class="font-sans text-xs uppercase text-luxe-sm text-stone" aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex flex-col items-start gap-8 px-8 pt-10 md:px-12">
+      <div class="flex items-center gap-4 text-sm font-medium uppercase text-luxe-sm">
+        {
+          locales.map((l) => (
+            <a
+              href={getRelativeLocaleUrl(l, rest)}
+              class={l === locale ? 'text-ink' : 'text-cocoa transition-colors hover:text-ink'}
+            >
+              {l}
+            </a>
+          ))
+        }
+      </div>
+      <a
+        href={linkTo('contact')}
+        class="inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
+      >
+        {t.nav.cta}
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6"/></svg>
+      </a>
+      <p class="max-w-xs text-xs leading-relaxed text-taupe">{t.footer.tagline}</p>
+    </div>
+  </div>
 </header>
+
+<script>
+  const toggleBtns = Array.from(document.querySelectorAll<HTMLElement>('[data-menu-toggle]'));
+  const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+
+  const setOpen = (open: boolean) => {
+    toggleBtns.forEach((b) => b.setAttribute('aria-expanded', String(open)));
+    document.documentElement.classList.toggle('menu-open', open);
+    panel?.classList.toggle('is-open', open);
+    panel?.setAttribute('aria-hidden', String(!open));
+    document.dispatchEvent(new CustomEvent('menu:toggle', { detail: { open } }));
+  };
+
+  toggleBtns.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+    }),
+  );
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+</script>

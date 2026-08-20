@@ -1,10 +1,10 @@
-export const locales = ['en', 'es'] as const;
+export const locales = ["en", "es"] as const;
 export type Locale = (typeof locales)[number];
 
 export type Segment = { t: string; strong?: boolean };
 
 export interface Translation {
-  lang: 'en' | 'es';
+  lang: "en" | "es";
   htmlLang: string;
   meta: {
     title: string;
@@ -24,7 +24,6 @@ export interface Translation {
     titleLine2: string;
     subtitle: string;
     cta: string;
-    watermark: string;
     authority: string[];
     badges: { initials: string; quote: string; role: string }[];
   };

@@ -68,6 +68,50 @@
   .lenis.lenis-stopped {
     overflow: hidden;
   }
+
+  html.menu-open {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .menu-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--color-ivory);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s 0.55s;
+  }
+  .menu-panel.is-open {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s 0s;
+  }
+
+  .menu-toggle span {
+    display: block;
+    height: 1.5px;
+    width: 20px;
+    background: var(--color-ink);
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.25s ease;
+  }
+  .menu-toggle[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+  }
 }
 
 @utility text-balance {

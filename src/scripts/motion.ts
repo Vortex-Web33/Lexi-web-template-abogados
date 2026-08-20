@@ -14,20 +14,27 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
   gsap.ticker.add(onTick);
   gsap.ticker.lagSmoothing(0);
 
+  const onMenuToggle = (e: Event) => {
+    const { open } = (e as CustomEvent<{ open: boolean }>).detail;
+    if (open) lenis.stop();
+    else lenis.start();
+  };
+  document.addEventListener('menu:toggle', onMenuToggle);
+
   gsap.defaults({ duration: 1, ease: 'power3.out' });
 
   const hero = document.querySelector('[data-hero]');
   if (hero) {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.from('[data-hero-title]', { y: 56, autoAlpha: 0, duration: 1.1 })
-      .from('[data-hero-sub]', { y: 28, autoAlpha: 0, duration: 0.9 }, '-=0.7')
-      .from('[data-hero-cta]', { y: 20, autoAlpha: 0, duration: 0.7 }, '-=0.55')
-      .from('[data-hero-watermark]', { autoAlpha: 0, duration: 1.4 }, '-=0.3')
-      .from('[data-hero-visual]', { autoAlpha: 0, scale: 0.97, duration: 1.3 }, '-=0.9')
+      .from('[data-hero-meta]', { y: 28, autoAlpha: 0, duration: 0.9 }, '-=0.7')
+      .from('[data-hero-visual]', { autoAlpha: 0, scale: 0.96, duration: 1.3 }, '-=0.6')
+      .from('[data-hero-frame]', { autoAlpha: 0, scale: 0.96, duration: 1.1 }, '-=1.1')
+      .from('[data-hero-watermark]', { autoAlpha: 0, scale: 0.92, duration: 1.6 }, '-=1.3')
       .from(
         '[data-hero-authority], [data-hero-badges]',
         { autoAlpha: 0, y: 24, duration: 0.8, stagger: 0.15 },
-        '-=0.7',
+        '-=1',
       );
   }
 
@@ -76,6 +83,7 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
   });
 
   return () => {
+    document.removeEventListener('menu:toggle', onMenuToggle);
     gsap.ticker.remove(onTick);
     lenis.destroy();
   };
