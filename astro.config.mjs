@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +16,10 @@ export default defineConfig({
     },
   },
   trailingSlash: 'never',
-  integrations: [sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en-US', es: 'es-ES' } } })],
+  integrations: [
+    sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en-US', es: 'es-ES' } } }),
+    icon({ include: { lucide: ['arrow-up-right', 'badge-check', 'x'] } }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
