@@ -75,6 +75,21 @@
 }
 
 @layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-hero-title],
+    .js [data-hero-meta],
+    .js [data-hero-visual],
+    .js [data-hero-frame],
+    .js [data-hero-watermark],
+    .js [data-hero-authority],
+    .js [data-hero-certificates],
+    .js [data-reveal],
+    .js [data-reveal-clip],
+    .js [data-reveal-group] > * {
+      opacity: 0;
+    }
+  }
+
   .menu-panel {
     position: fixed;
     inset: 0;

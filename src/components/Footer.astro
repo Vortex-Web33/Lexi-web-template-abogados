@@ -8,6 +8,9 @@ interface Props {
 }
 
 const { locale, t } = Astro.props;
+
+const linkTo = (href: string) =>
+  href.startsWith('mailto:') ? href : getRelativeLocaleUrl(locale, href);
 ---
 
 <footer class="border-t border-line bg-ivory-deep px-6 py-12 md:px-14 md:py-16">
@@ -22,9 +25,18 @@ const { locale, t } = Astro.props;
     {
       t.footer.columns.map((col) => (
         <div>
-          <h3 class="text-[10px] uppercase tracking-luxe text-bronze">{col.heading}</h3>
+          <h3 class="text-[10px] uppercase tracking-luxe text-stone">{col.heading}</h3>
           <ul class="mt-4 space-y-2.5">
-            {col.links.map((link) => <li class="text-xs text-taupe transition-colors hover:text-ink">{link}</li>)}
+            {col.links.map((link) => (
+              <li>
+                <a
+                  href={linkTo(link.href)}
+                  class="text-xs text-taupe transition-colors hover:text-ink"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       ))

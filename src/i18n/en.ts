@@ -7,6 +7,7 @@ const en: Translation = {
     title: "LexCore — Your Legal Partner in Every Situation",
     description:
       "LexCore is a premium law firm delivering smart legal solutions through expertise, precision and a client-focused mindset.",
+    // MARCADO: og.jpg es duplicado byte a byte de dama-justicia.jpg — se conserva intencionalmente (no borrar)
     ogImage: "/images/og.jpg",
   },
   nav: {
@@ -23,14 +24,15 @@ const en: Translation = {
     subtitle:
       "LexCore resolves complex legal matters with strategy, discretion and an unwavering commitment to your interests.",
     cta: "Book a Free Consultation",
+    imageAlt: "Lady Justice statue — LexCore law firm",
     authority: {
       title: "Our Legal Team",
-      text: "30+ years of combined experience representing over 12,000 criminal matters across 3 jurisdictions.",
+      text: "30+ years of combined experience advising on high-stakes corporate, family and tax matters across 3 jurisdictions.",
     },
     certificates: [
       { name: "Chambers & Partners", detail: "Top Tier Recognised" },
-      { name: "The Legal 500", detail: "Leading Criminal Firm" },
-      { name: "Super Lawyers", detail: "10.0 Rated" },
+      { name: "The Legal 500", detail: "Leading Full-Service Firm" },
+      { name: "Super Lawyers", detail: "Recognised" },
     ],
   },
   statement: {
@@ -53,8 +55,8 @@ const en: Translation = {
     ],
   },
   metrics: [
-    { value: "18+", label: "Years in Practice" },
-    { value: "100+", label: "Legal Matters Resolved" },
+    { value: "30+", label: "Years in Practice" },
+    { value: "500+", label: "Legal Matters Resolved" },
     { value: "95%", label: "Client Approval" },
     { value: "6K+", label: "Clients Worldwide" },
   ],
@@ -70,24 +72,29 @@ const en: Translation = {
       {
         heading: "Practice Areas",
         links: [
-          "Corporate Law",
-          "Litigation",
-          "Mergers & Acquisitions",
-          "Family Law",
-          "Tax Law",
+          { label: "Corporate Law", href: "services" },
+          { label: "Litigation", href: "services" },
+          { label: "Mergers & Acquisitions", href: "services" },
+          { label: "Family Law", href: "services" },
+          { label: "Tax Law", href: "services" },
         ],
       },
       {
         heading: "Firm",
-        links: ["About", "Case Studies", "Our Team", "Careers"],
+        links: [
+          { label: "About", href: "about" },
+          { label: "Case Studies", href: "case-study" },
+          { label: "Our Team", href: "about" },
+          { label: "Careers", href: "contact" },
+        ],
       },
       {
         heading: "Contact",
         links: [
-          "Book a Consultation",
-          "Madrid Office",
-          "Miami Office",
-          "hello@lexcore.law",
+          { label: "Book a Consultation", href: "contact" },
+          { label: "Madrid Office", href: "contact" },
+          { label: "Miami Office", href: "contact" },
+          { label: "hello@lexcore.law", href: "mailto:hello@lexcore.law" },
         ],
       },
     ],
@@ -97,7 +104,7 @@ const en: Translation = {
   about: {
     title: "A firm built on precision",
     intro:
-      "For over eighteen years, LexCore has advised clients across borders — combining the rigour of the courtroom with the discretion of a private office.",
+      "For over thirty years, LexCore has advised clients across borders — combining the rigour of the courtroom with the discretion of a private office.",
     paragraphs: [
       "Founded by senior counsel with backgrounds in international litigation, LexCore was built on a simple conviction: every client deserves a strategy as meticulous as the outcome they expect.",
       "Our partners personally lead each engagement. No hand-offs, no committees — a single accountable advisor from first meeting to final judgement.",
@@ -122,8 +129,8 @@ const en: Translation = {
       },
     ],
     stats: [
-      { value: "18+", label: "Years in Practice" },
-      { value: "100+", label: "Legal Matters Resolved" },
+      { value: "30+", label: "Years in Practice" },
+      { value: "500+", label: "Legal Matters Resolved" },
       { value: "95%", label: "Client Approval" },
       { value: "6K+", label: "Clients Worldwide" },
     ],
@@ -217,6 +224,7 @@ const en: Translation = {
       message: "Briefly describe your matter",
       submit: "Send request",
       note: "Confidential by default. We will never share your information.",
+      success: "Your message has been sent. We reply within one business day.",
     },
     offices: [
       {

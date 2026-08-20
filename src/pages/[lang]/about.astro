@@ -29,7 +29,9 @@ const t = getTranslation(locale);
   <section class="relative overflow-hidden" data-reveal>
     <img
       src="/images/dama-justicia.jpg"
-      alt="Lady Justice"
+      alt={t.hero.imageAlt}
+      width="1066"
+      height="1600"
       class="h-[340px] w-full object-cover object-top md:h-[460px]"
       loading="lazy"
       decoding="async"
@@ -56,7 +58,7 @@ const t = getTranslation(locale);
         t.about.stats.map((s, i) => (
           <div class={`px-4 py-6 text-center ${i % 2 === 1 ? 'border-l border-line' : ''} ${i >= 2 ? 'border-t border-line md:border-t-0' : ''} ${i >= 2 ? 'md:border-l' : ''}`}>
             <p class="text-3xl font-bold tabular-nums text-ink md:text-4xl">{s.value}</p>
-            <p class="mt-2 text-[10px] uppercase tracking-luxe text-taupe">{s.label}</p>
+            <p class="mt-2 text-[10px] uppercase tracking-luxe-sm text-taupe">{s.label}</p>
           </div>
         ))
       }

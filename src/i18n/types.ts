@@ -24,6 +24,7 @@ export interface Translation {
     titleLine2: string;
     subtitle: string;
     cta: string;
+    imageAlt: string;
     authority: { title: string; text: string };
     certificates: { name: string; detail: string }[];
   };
@@ -40,7 +41,7 @@ export interface Translation {
   };
   footer: {
     tagline: string;
-    columns: { heading: string; links: string[] }[];
+    columns: { heading: string; links: { label: string; href: string }[] }[];
     rights: string;
     madeWith: string;
   };
@@ -79,6 +80,7 @@ export interface Translation {
       message: string;
       submit: string;
       note: string;
+      success: string;
     };
     offices: { city: string; address: string; phone: string; email: string }[];
   };

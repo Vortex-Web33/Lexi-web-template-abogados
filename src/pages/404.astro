@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 
 const locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : 'en';
 const t = getTranslation(locale);
+const home = `/${locale}`;
 ---
 
 <Base locale={locale} title={`404 — LexCore`} description={t.meta.description}>
@@ -18,7 +19,7 @@ const t = getTranslation(locale);
         : 'La página que buscas no existe o ha sido movida.'}
     </p>
     <a
-      href="/en"
+      href={home}
       class="mt-10 inline-flex items-center gap-2 rounded-full bg-mocha px-6 py-3.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa"
     >
       {locale === 'en' ? 'Back to home' : 'Volver al inicio'}

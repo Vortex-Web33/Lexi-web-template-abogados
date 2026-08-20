@@ -7,6 +7,7 @@ const es: Translation = {
     title: "LexCore — Tu socio legal en cualquier situación",
     description:
       "LexCore es un despacho de abogados premium que ofrece soluciones legales inteligentes con experiencia, precisión y una mentalidad centrada en el cliente.",
+    // MARCADO: og.jpg es duplicado byte a byte de dama-justicia.jpg — se conserva intencionalmente (no borrar)
     ogImage: "/images/og.jpg",
   },
   nav: {
@@ -23,14 +24,15 @@ const es: Translation = {
     subtitle:
       "LexCore resuelve asuntos legales complejos con estrategia, discreción y un compromiso inquebrantable con tus intereses.",
     cta: "Reserva consulta gratuita",
+    imageAlt: "Estatua de la Justicia — despacho LexCore",
     authority: {
       title: "Nuestro Equipo Legal",
-      text: "Más de 30 años de experiencia combinada representando más de 12.000 asuntos penales en 3 jurisdicciones.",
+      text: "Más de 30 años de experiencia combinada asesorando en asuntos corporativos, de familia y fiscales de alta complejidad en 3 jurisdicciones.",
     },
     certificates: [
       { name: "Chambers & Partners", detail: "Reconocidos Top Tier" },
-      { name: "The Legal 500", detail: "Bufete Penal Líder" },
-      { name: "Super Lawyers", detail: "Valoración 10.0" },
+      { name: "The Legal 500", detail: "Bufete Generalista Líder" },
+      { name: "Super Lawyers", detail: "Reconocidos" },
     ],
   },
   statement: {
@@ -53,10 +55,10 @@ const es: Translation = {
     ],
   },
   metrics: [
-    { value: "18+", label: "Años de ejercicio" },
-    { value: "100+", label: "Asuntos resueltos" },
+    { value: "30+", label: "Años de ejercicio" },
+    { value: "500+", label: "Asuntos resueltos" },
     { value: "95%", label: "Aprobación de clientes" },
-    { value: "6K+", label: "Clientes en el mundo" },
+    { value: "6.000+", label: "Clientes en el mundo" },
   ],
   scrollBadge:
     "DESCUBRE MÁS · RESERVA UNA CONSULTA · DESCUBRE MÁS · RESERVA UNA CONSULTA ·",
@@ -71,24 +73,29 @@ const es: Translation = {
       {
         heading: "Áreas de práctica",
         links: [
-          "Derecho corporativo",
-          "Litigios",
-          "Fusiones y adquisiciones",
-          "Derecho de familia",
-          "Derecho fiscal",
+          { label: "Derecho corporativo", href: "services" },
+          { label: "Litigios", href: "services" },
+          { label: "Fusiones y adquisiciones", href: "services" },
+          { label: "Derecho de familia", href: "services" },
+          { label: "Derecho fiscal", href: "services" },
         ],
       },
       {
         heading: "Despacho",
-        links: ["Nosotros", "Casos", "Nuestro equipo", "Carreras"],
+        links: [
+          { label: "Nosotros", href: "about" },
+          { label: "Casos", href: "case-study" },
+          { label: "Nuestro equipo", href: "about" },
+          { label: "Carreras", href: "contact" },
+        ],
       },
       {
         heading: "Contacto",
         links: [
-          "Reserva una consulta",
-          "Oficina Madrid",
-          "Oficina Miami",
-          "hello@lexcore.law",
+          { label: "Reserva una consulta", href: "contact" },
+          { label: "Oficina Madrid", href: "contact" },
+          { label: "Oficina Miami", href: "contact" },
+          { label: "hello@lexcore.law", href: "mailto:hello@lexcore.law" },
         ],
       },
     ],
@@ -98,7 +105,7 @@ const es: Translation = {
   about: {
     title: "Un despacho construido con precisión",
     intro:
-      "Durante más de dieciocho años, LexCore ha asesorado a clientes a través de fronteras — combinando el rigor del tribunal con la discreción de un despacho privado.",
+      "Durante más de treinta años, LexCore ha asesorado a clientes a través de fronteras — combinando el rigor del tribunal con la discreción de un despacho privado.",
     paragraphs: [
       "Fundado por abogados senior con trayectoria en litigios internacionales, LexCore se construyó sobre una convicción simple: cada cliente merece una estrategia tan meticulosa como el resultado que espera.",
       "Nuestros socios dirigen personalmente cada encargo. Sin traspasos ni comités — un único asesor responsable desde la primera reunión hasta la sentencia final.",
@@ -123,10 +130,10 @@ const es: Translation = {
       },
     ],
     stats: [
-      { value: "18+", label: "Años de ejercicio" },
-      { value: "100+", label: "Asuntos resueltos" },
+      { value: "30+", label: "Años de ejercicio" },
+      { value: "500+", label: "Asuntos resueltos" },
       { value: "95%", label: "Aprobación de clientes" },
-      { value: "6K+", label: "Clientes en el mundo" },
+      { value: "6.000+", label: "Clientes en el mundo" },
     ],
   },
   services: {
@@ -218,6 +225,7 @@ const es: Translation = {
       message: "Describe brevemente tu asunto",
       submit: "Enviar solicitud",
       note: "Confidencial por defecto. Nunca compartiremos tu información.",
+      success: "Tu mensaje ha sido enviado. Respondemos en un día laborable.",
     },
     offices: [
       {

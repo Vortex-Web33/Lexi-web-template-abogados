@@ -26,45 +26,74 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
   const hero = document.querySelector('[data-hero]');
   if (hero) {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    tl.from('[data-hero-title]', { y: 56, autoAlpha: 0, duration: 1.1 })
-      .from('[data-hero-meta]', { y: 28, autoAlpha: 0, duration: 0.9 }, '-=0.7')
-      .from('[data-hero-visual]', { autoAlpha: 0, scale: 0.96, duration: 1.3 }, '-=0.6')
-      .from('[data-hero-frame]', { autoAlpha: 0, scale: 0.96, duration: 1.1 }, '-=1.1')
-      .from('[data-hero-watermark]', { autoAlpha: 0, scale: 0.92, duration: 1.6 }, '-=1.3')
-      .from(
+    tl.fromTo('[data-hero-title]', { y: 56, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.1 })
+      .fromTo('[data-hero-meta]', { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9 }, '-=0.7')
+      .fromTo(
+        '[data-hero-visual]',
+        { autoAlpha: 0, scale: 0.96 },
+        { autoAlpha: 1, scale: 1, duration: 1.3 },
+        '-=0.6',
+      )
+      .fromTo(
+        '[data-hero-frame]',
+        { autoAlpha: 0, scale: 0.96 },
+        { autoAlpha: 1, scale: 1, duration: 1.1 },
+        '-=1.1',
+      )
+      .fromTo(
+        '[data-hero-watermark]',
+        { autoAlpha: 0, scale: 0.92 },
+        { autoAlpha: 1, scale: 1, duration: 1.6 },
+        '-=1.3',
+      )
+      .fromTo(
         '[data-hero-authority], [data-hero-certificates]',
-        { autoAlpha: 0, y: 24, duration: 0.8, stagger: 0.15 },
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.15 },
         '-=1',
       );
   }
 
   gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
-    gsap.from(el, {
-      y: 48,
-      autoAlpha: 0,
-      duration: 1,
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    });
+    gsap.fromTo(
+      el,
+      { y: 48, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 1,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      },
+    );
   });
 
   gsap.utils.toArray<HTMLElement>('[data-reveal-clip]').forEach((el) => {
-    gsap.from(el, {
-      clipPath: 'inset(0 0 100% 0)',
-      yPercent: 10,
-      duration: 1.3,
-      ease: 'power4.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-    });
+    gsap.fromTo(
+      el,
+      { clipPath: 'inset(0 0 100% 0)', yPercent: 10, autoAlpha: 0 },
+      {
+        clipPath: 'inset(0 0 0% 0)',
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 1.3,
+        ease: 'power4.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      },
+    );
   });
 
   gsap.utils.toArray<HTMLElement>('[data-reveal-group]').forEach((el) => {
-    gsap.from(el.children, {
-      y: 40,
-      autoAlpha: 0,
-      duration: 0.9,
-      stagger: 0.12,
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    });
+    gsap.fromTo(
+      el.children,
+      { y: 40, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.9,
+        stagger: 0.12,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      },
+    );
   });
 
   document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((wrap) => {

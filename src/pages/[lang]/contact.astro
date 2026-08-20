@@ -19,37 +19,39 @@ const t = getTranslation(locale);
   </section>
 
   <section class="grid gap-14 border-t border-line px-6 py-14 md:grid-cols-[1.2fr_1fr] md:gap-20 md:px-14 md:py-16" data-reveal-group>
-    <form class="space-y-8" action="#" method="post">
+    <form class="space-y-8" action="#" method="post" data-contact-form>
       <div>
-        <label for="name" class="text-[10px] uppercase tracking-luxe text-bronze">{t.contact.form.name}</label>
+        <label for="name" class="text-[10px] uppercase tracking-luxe text-stone">{t.contact.form.name}</label>
         <input
           id="name"
           name="name"
           type="text"
           required
-          class="mt-2 w-full border-b border-line bg-transparent py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-stone focus:border-mocha"
+          autocomplete="name"
+          class="mt-2 w-full border-b border-line bg-transparent py-2.5 text-sm text-ink transition-colors placeholder:text-stone focus:border-mocha"
           placeholder="—"
         />
       </div>
       <div>
-        <label for="email" class="text-[10px] uppercase tracking-luxe text-bronze">{t.contact.form.email}</label>
+        <label for="email" class="text-[10px] uppercase tracking-luxe text-stone">{t.contact.form.email}</label>
         <input
           id="email"
           name="email"
           type="email"
           required
-          class="mt-2 w-full border-b border-line bg-transparent py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-stone focus:border-mocha"
+          autocomplete="email"
+          class="mt-2 w-full border-b border-line bg-transparent py-2.5 text-sm text-ink transition-colors placeholder:text-stone focus:border-mocha"
           placeholder="—"
         />
       </div>
       <div>
-        <label for="message" class="text-[10px] uppercase tracking-luxe text-bronze">{t.contact.form.message}</label>
+        <label for="message" class="text-[10px] uppercase tracking-luxe text-stone">{t.contact.form.message}</label>
         <textarea
           id="message"
           name="message"
           rows="5"
           required
-          class="mt-2 w-full resize-none border-b border-line bg-transparent py-2.5 text-sm leading-relaxed text-ink outline-none transition-colors placeholder:text-stone focus:border-mocha"
+          class="mt-2 w-full resize-none border-b border-line bg-transparent py-2.5 text-sm leading-relaxed text-ink transition-colors placeholder:text-stone focus:border-mocha"
           placeholder="—"
         ></textarea>
       </div>
@@ -61,6 +63,9 @@ const t = getTranslation(locale);
           {t.contact.form.submit}
         </button>
         <p class="text-[10px] uppercase tracking-luxe text-stone">{t.contact.form.note}</p>
+        <p class="text-sm text-mocha" role="status" aria-live="polite" data-form-status hidden>
+          {t.contact.form.success}
+        </p>
       </div>
     </form>
 
@@ -71,10 +76,32 @@ const t = getTranslation(locale);
             <h2 class="font-serif text-2xl font-semibold italic text-ink">{o.city}</h2>
             <p class="mt-3 text-sm leading-relaxed text-taupe">{o.address}</p>
             <p class="mt-1 text-sm text-taupe">{o.phone}</p>
-            <p class="mt-1 text-sm text-mocha">{o.email}</p>
+            <p class="mt-1 text-sm text-mocha">
+              <a href={`mailto:${o.email}`} class="underline-offset-4 transition-colors hover:text-ink hover:underline">
+                {o.email}
+              </a>
+            </p>
           </div>
         ))
       }
     </aside>
   </section>
 </Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea'));
+    let valid = true;
+    fields.forEach((field) => {
+      const ok = field.checkValidity();
+      field.setAttribute('aria-invalid', String(!ok));
+      if (!ok) valid = false;
+    });
+    if (!valid) return;
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    status?.removeAttribute('hidden');
+    form.reset();
+  });
+</script>

@@ -45,7 +45,7 @@ const contact = getRelativeLocaleUrl(t.lang, "contact");
 
   <div class="relative mt-5 min-h-0 flex-1" data-hero-visual>
     <div
-      class="absolute left-1/2 top-1/2 h-[84%] w-[min(74vw,560px)] -translate-x-1/2 -translate-y-1/2"
+      class="absolute left-1/2 top-1/2 h-[84%] w-[min(74vw,560px)] -translate-x-1/2 -translate-y-1/2 border border-ink/60 bg-ivory-deep/40"
       aria-hidden="true"
       data-hero-frame
     >
@@ -55,13 +55,13 @@ const contact = getRelativeLocaleUrl(t.lang, "contact");
       class="absolute left-0 top-1/2 hidden -translate-y-1/2 max-w-[210px] border-l border-bronze/50 pl-5 text-left lg:block"
       data-hero-authority
     >
-      <p class="text-[9px] font-bold uppercase tracking-luxe text-bronze">{t.hero.authority.title}</p>
+      <p class="text-[10px] font-bold uppercase tracking-luxe text-stone">{t.hero.authority.title}</p>
       <p class="mt-2.5 text-[11px] leading-relaxed text-taupe">{t.hero.authority.text}</p>
     </div>
 
     <img
       src="/images/lady-justice.webp"
-      alt="Lady Justice"
+      alt={t.hero.imageAlt}
       class="absolute bottom-[4svh] left-1/2 z-10 h-[95%] max-w-[72%] -translate-x-1/2 object-contain [filter:drop-shadow(0_20px_36px_rgba(43,32,23,0.22))] [mask-image:linear-gradient(to_bottom,black_90%,transparent_100%)]"
       loading="eager"
       fetchpriority="high"
@@ -79,7 +79,7 @@ const contact = getRelativeLocaleUrl(t.lang, "contact");
               <Icon name="lucide:badge-check" class="h-8 w-8 text-bronze" />
               <figcaption>
                 <p class="text-[11px] font-semibold leading-snug text-ink">{c.name}</p>
-                <p class="mt-1 text-[8.5px] uppercase tracking-luxe text-bronze">{c.detail}</p>
+                <p class="mt-1 text-[10px] uppercase tracking-luxe text-stone">{c.detail}</p>
               </figcaption>
             </figure>
           ))

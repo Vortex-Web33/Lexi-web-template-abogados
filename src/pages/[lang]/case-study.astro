@@ -24,21 +24,21 @@ const t = getTranslation(locale);
       t.caseStudy.cases.map((c) => (
         <article class="border-t border-line py-10 last:border-b">
           <div class="flex flex-wrap items-baseline justify-between gap-3">
-            <span class="text-[10px] uppercase tracking-luxe text-bronze">{c.tag}</span>
+            <span class="text-[10px] uppercase tracking-luxe-sm text-stone">{c.tag}</span>
             <span class="text-[10px] uppercase tracking-luxe text-taupe">{c.sector}</span>
           </div>
           <h2 class="mt-4 font-serif text-2xl font-semibold text-ink md:text-3xl">{c.client}</h2>
           <dl class="mt-7 grid gap-6 md:grid-cols-3 md:gap-10">
             <div>
-              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Challenge</dt>
+              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Challenge</dt>
               <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.challenge}</dd>
             </div>
             <div>
-              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Solution</dt>
+              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Solution</dt>
               <dd class="mt-2 text-sm leading-relaxed text-taupe">{c.solution}</dd>
             </div>
             <div>
-              <dt class="text-[10px] uppercase tracking-luxe text-bronze">Result</dt>
+              <dt class="text-[10px] uppercase tracking-luxe-sm text-stone">Result</dt>
               <dd class="mt-2 text-sm font-medium leading-relaxed text-ink">{c.result}</dd>
             </div>
           </dl>

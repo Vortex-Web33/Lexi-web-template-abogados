@@ -34,6 +34,7 @@ const isActive = (path: string) => rest === path;
         navItems.map((item) => (
           <a
             href={linkTo(item.path)}
+            aria-current={isActive(item.path) ? 'page' : undefined}
             class={`text-xs font-medium uppercase text-luxe-sm transition-colors hover:text-ink ${
               isActive(item.path) ? 'text-ink' : 'text-cocoa'
             }`}
@@ -50,6 +51,8 @@ const isActive = (path: string) => rest === path;
           locales.map((l) => (
             <a
               href={getRelativeLocaleUrl(l, rest)}
+              aria-label={l}
+              aria-current={l === locale ? 'true' : undefined}
               class={l === locale ? 'text-ink' : 'text-cocoa transition-colors hover:text-ink'}
             >
               {l}
@@ -62,7 +65,7 @@ const isActive = (path: string) => rest === path;
         class="hidden rounded-full bg-mocha px-5 py-2.5 text-xs font-medium uppercase text-luxe-sm text-ivory transition-all hover:scale-[1.03] hover:bg-cocoa lg:inline-flex"
       >
         {t.nav.cta}
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6"/></svg>
+        <Icon name="lucide:arrow-up-right" class="h-3 w-3" />
       </a>
       <button
         type="button"
@@ -100,6 +103,7 @@ const isActive = (path: string) => rest === path;
         navItems.map((item) => (
           <a
             href={linkTo(item.path)}
+            aria-current={isActive(item.path) ? 'page' : undefined}
             class={`flex items-center justify-between border-b border-line py-5 font-serif text-3xl font-medium transition-colors hover:text-bronze md:text-4xl ${
               isActive(item.path) ? 'text-ink' : 'text-cocoa'
             }`}
@@ -117,6 +121,8 @@ const isActive = (path: string) => rest === path;
           locales.map((l) => (
             <a
               href={getRelativeLocaleUrl(l, rest)}
+              aria-label={l}
+              aria-current={l === locale ? 'true' : undefined}
               class={l === locale ? 'text-ink' : 'text-cocoa transition-colors hover:text-ink'}
             >
               {l}
@@ -140,12 +146,46 @@ const isActive = (path: string) => rest === path;
   const toggleBtns = Array.from(document.querySelectorAll<HTMLElement>('[data-menu-toggle]'));
   const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
 
+  const focusables = () =>
+    Array.from(panel?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []).filter(
+      (el) => el.offsetParent !== null || el.getAttribute('aria-hidden') !== 'true',
+    );
+
+  const trapFocus = (e: KeyboardEvent) => {
+    if (e.key !== 'Tab') return;
+    const items = focusables();
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
   const setOpen = (open: boolean) => {
     toggleBtns.forEach((b) => b.setAttribute('aria-expanded', String(open)));
     document.documentElement.classList.toggle('menu-open', open);
     panel?.classList.toggle('is-open', open);
     panel?.setAttribute('aria-hidden', String(!open));
     document.dispatchEvent(new CustomEvent('menu:toggle', { detail: { open } }));
+
+    const main = document.getElementById('main');
+    const footer = document.querySelector('footer');
+    if (open) {
+      main?.setAttribute('inert', '');
+      footer?.setAttribute('inert', '');
+      document.addEventListener('keydown', trapFocus);
+      (focusables()[0] ?? panel)?.focus();
+    } else {
+      main?.removeAttribute('inert');
+      footer?.removeAttribute('inert');
+      document.removeEventListener('keydown', trapFocus);
+      toggleBtns[0]?.focus();
+    }
   };
 
   toggleBtns.forEach((btn) =>

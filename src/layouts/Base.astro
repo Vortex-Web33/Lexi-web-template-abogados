@@ -30,6 +30,9 @@ const image = new URL(t.meta.ogImage, Astro.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -53,8 +56,14 @@ const image = new URL(t.meta.ogImage, Astro.site).toString();
     <meta name="twitter:image" content={image} />
   </head>
   <body class="min-h-screen bg-ivory">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-mocha focus:px-5 focus:py-2.5 focus:text-xs focus:font-medium focus:uppercase focus:tracking-luxe focus:text-ivory"
+    >
+      {locale === 'en' ? 'Skip to content' : 'Saltar al contenido'}
+    </a>
     <Header locale={locale} t={t} rest={rest} />
-    <main class="pt-14 md:pt-16">
+    <main id="main" class="pt-14 md:pt-16">
       <slot />
     </main>
     <Footer locale={locale} t={t} />
