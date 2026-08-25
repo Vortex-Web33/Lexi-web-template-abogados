@@ -43,11 +43,7 @@ const { t } = Astro.props;
     </div>
   </div>
 
-  <div
-    class="relative w-full overflow-hidden"
-    data-parallax
-    style="mask-image: radial-gradient(circle 64px at 50% 0%, transparent 62px, black 64px); -webkit-mask-image: radial-gradient(circle 64px at 50% 0%, transparent 62px, black 64px);"
-  >
+  <div class="relative w-full overflow-hidden" data-parallax>
     <img
       src="/images/office.jpg"
       alt={t.imageSection.caption}
@@ -58,6 +54,12 @@ const { t } = Astro.props;
       decoding="async"
       data-parallax-target
     />
+  </div>
+
+  <div
+    class="fusion-halo pointer-events-none absolute left-1/2 top-0 z-10 -translate-x-1/2"
+    aria-hidden="true"
+  >
   </div>
 
   <div class="absolute bottom-5 left-4 md:bottom-9 md:left-10" data-caption>
@@ -73,6 +75,32 @@ const { t } = Astro.props;
 <style>
   .js [data-scroll-badge] {
     will-change: transform;
+  }
+
+  /* Fusion halo: a radial ink glow radiating from the medallion's center into
+     the photo so the disk reads as melting into the image, not pasted on it. */
+  .fusion-halo {
+    width: 224px;
+    height: 112px;
+    background: radial-gradient(
+      108px 104px at 50% 0,
+      rgb(43 32 23 / 0.48),
+      rgb(43 32 23 / 0.22) 52%,
+      transparent 98%
+    );
+  }
+
+  @media (min-width: 48rem) {
+    .fusion-halo {
+      width: 292px;
+      height: 146px;
+      background: radial-gradient(
+        142px 136px at 50% 0,
+        rgb(43 32 23 / 0.48),
+        rgb(43 32 23 / 0.22) 52%,
+        transparent 98%
+      );
+    }
   }
 </style>
 
